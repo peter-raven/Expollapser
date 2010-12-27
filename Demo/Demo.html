@@ -1,0 +1,423 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="da" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Expollapser test</title>
+	<script src="../jquery-1.4.1.js" type="text/javascript"></script>
+	<script src="../expollapser.js" type="text/javascript"></script>
+	<script type="text/javascript" src="shCore.js"></script>
+	<script type="text/javascript" src="shBrushJScript.js"></script>
+	<script type="text/javascript" src="shBrushXml.js"></script>
+	<script type="text/javascript" src="beautify.js"></script>
+	<script type="text/javascript" src="beautify-html.js"></script>
+	<link href="shCore.css" rel="stylesheet" type="text/css" />
+	<link href="shThemeDefault.css" rel="stylesheet" type="text/css" />
+	<style type="text/css">
+		body
+		{
+			background-color: #FFF0F0;
+			font-family: Verdana, Sans-Serif;
+			font-size: 10pt;
+		}
+		
+		h1
+		{
+			font-size: 15pt;
+		}
+		
+		h2
+		{
+			font-size: 12pt;
+		}
+		
+		.demoSection
+		{
+			border: 1px solid grey;
+			padding: 8px;
+		}
+		
+		.demoSection .codeSection
+		{
+			float: left;
+			width: 55%;
+			padding: 10px;
+			background-color: #E0D0D0;
+		}
+		
+		.demoSection .codeSection pre
+		{
+			font-family: Consolas, Courier New, Monospace;
+		}
+		
+		.demoSection .functionalSection
+		{
+			float: right;
+			width: 37%;
+			height: 200px;
+			background-color: #E0D0D0;
+			padding: 10px;
+			margin-left: 15px;
+		}
+		
+		.demoSection .functionalSection > div
+		{
+			padding: 8px;
+		}
+		
+		.expandedPart
+		{
+			background-color: Silver;
+		}
+		.disabledExpander
+		{
+			color: Gray;
+		}
+	</style>
+</head>
+<body>
+	<h1>
+		Expollapser demo
+	</h1>
+	<!-- Simple expander -->
+	<div class="demoSection">
+		<h2>Simple expander</h2>
+		This is the simplest way to use the expollapser. The header will automatically be made clickable and work
+		as a toggler between showing and hiding the content. The content must be the next sibling DOM element relative to the header
+		(or you will have to use the <a href="#"><code>contentElement</code></a> setting.<br />
+		<br />
+		<div class="codeSection">
+		</div>
+		<div class="functionalSection">
+			<div id="simpleDemo1" style="background-color: #E0E0FF;">
+				Click this heading to toggle
+			</div>
+			<div style="display: none; background-color: #E0FFE0;">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+			</div>
+			<script language="javascript" type="text/javascript">
+				$('#simpleDemo1').expollapser();
+			</script>
+		</div>
+		<br style="clear: both;" />
+	</div>
+	<!-- Using contentElement to identidy content part -->
+	<div class="demoSection">
+		<h2>Using contentElement to identify content partr</h2>
+		Expollapser always works with the notion of a header part and a content part. The header part is always visible
+		and usually works as the clickable element that will make the content part show or hide. The <code>contentElement</code>
+		setting controls how to find the content part from the header part. You can use <code>prev</code> (previous sibling element),
+		<code>next</code> (next sibling element), or like in this example, you can use a jQuery expression.
+		<br />
+		<div class="codeSection">
+		</div>
+		<div class="functionalSection">
+			<div id="contentElementDemo1" style="background-color: #E0E0FF;">
+				Click this heading to toggle
+			</div>
+			<div>
+				Some other DOM element comes in between here...
+			</div>
+			<div id="myContent" style="display: none; background-color: #E0FFE0;">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+			</div>
+			<script language="javascript" type="text/javascript">
+				$('#contentElementDemo1').expollapser({
+					'contentElement': '#myContent'
+				});
+			</script>
+		</div>
+		<br style="clear: both;" />
+	</div>
+	<!-- DEMO - Toggling header -->
+	<div class="demoSection">
+		<h2>
+			Toggling header</h2>
+		<div class="codeSection">
+		</div>
+		<div class="functionalSection">
+			<div id="togglingHeaderDemo1" style="background-color: #E0E0FF;">
+				Show more...
+			</div>
+			<div style="display: none; background-color: #E0FFE0;">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+			</div>
+			<script language="javascript" type="text/javascript">
+				$('#togglingHeaderDemo1').expollapser({
+					'headerChangeHtml': 'Show less...'
+				});
+			</script>
+		</div>
+		<br style="clear: both;" />
+	</div>
+	<!-- DEMO - Toggling header using function -->
+	<div class="demoSection">
+		<h2>
+			Toggling header using a function</h2>
+		<div class="codeSection">
+		</div>
+		<div class="functionalSection">
+			<div id="togglingHeaderDemo2" style="background-color: #E0E0FF;">
+				<strong>+</strong> A heading
+			</div>
+			<div style="display: none; background-color: #E0FFE0;">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+			</div>
+			<script language="javascript" type="text/javascript">
+				$('#togglingHeaderDemo2').expollapser({
+					'headerChangeHtml': function (header) {
+						header.html(header.html().replace('+', '-'));
+					}
+				});
+			</script>
+		</div>
+		<br style="clear: both;" />
+	</div>
+	<!-- DEMO - using links in header as togglers -->
+	<div class="demoSection">
+		<h2>
+			Using links in header as toggler</h2>
+			In expollapser's default setting, the header will be made clickable and will thereby work as the
+			toggler. In some cases (for instance to follow WCAG guidelines, keyboard navigation, etc), you may
+			want only real (a href) links inside the header to work as togglers. Use the <code>toggler</code> setting <code>headerLinks</code> for this.
+		<div class="codeSection">
+		</div>
+		<div class="functionalSection">
+			<div id="togglerHeaderLinksDemo" style="background-color: #E0E0FF;">
+				<a href="#">Click this link to toggle</a>
+			</div>
+			<div style="display: none; background-color: #E0FFE0;">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+			</div>
+			<script language="javascript" type="text/javascript">
+				$('#togglerHeaderLinksDemo').expollapser({
+					'toggler': 'headerLinks' });
+			</script>
+		</div>
+		<br style="clear: both;" />
+	</div>
+	<!-- DEMO - identifying togglers using a function -->
+	<div class="demoSection">
+		<h2>
+			Identifying togglers using a function</h2>
+		<div class="codeSection">
+		</div>
+		<div class="functionalSection">
+			<div id="togglerFunctionDemo1" style="background-color: #E0E0FF;">
+				<a href="#" class="onlyTheseLinks">Click this link to toggle</a><br />
+				<a href="http://www.google.com" target="_new">Click this link for google</a>
+			</div>
+			<div style="display: none; background-color: #E0FFE0;">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+			</div>
+			<script language="javascript" type="text/javascript">
+				$('#togglerFunctionDemo1').expollapser({
+					'toggler': function (header) { return $('a.onlyTheseLinks', header); }
+				});
+			</script>
+		</div>
+		<br style="clear: both;" />
+	</div>
+	<!-- DEMO - nesting -->
+	<div class="demoSection">
+		<h2>
+			Nesting</h2>
+		<div class="codeSection">
+		</div>
+		<div class="functionalSection">
+			<div class="nestingDemo1" style="background-color: #E0E0FF;">
+				First level header
+			</div>
+			<div style="display: none; background-color: #E0FFE0;">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br />
+				<div class="nestingDemo1" style="background-color: #E0E0FF;">
+					Second level header
+				</div>
+				<div style="display: none;">
+					Second level content<br />
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+				</div>
+			</div>
+			<script language="javascript" type="text/javascript">
+				$('.nestingDemo1').expollapser();
+			</script>
+		</div>
+		<br style="clear: both;" />
+	</div>
+	<!-- DEMO - Lazy load content  -->
+	<div class="demoSection">
+		<h2>
+			Lazy load content</h2>
+		<div class="codeSection">
+		</div>
+		<div class="functionalSection">
+			<div id="lazyLoadDemo" style="background-color: #E0E0FF;">
+				Show lazy loaded content
+			</div>
+			<div style="display: none; background-color: #E0FFE0;">
+			</div>
+			<script language="javascript" type="text/javascript">
+				$('#lazyLoadDemo').expollapser({
+					'contentHtml': 'url:lazyLoadedContent.html',
+					'headerChangeHtml': function (header) {
+						header.html(header.html().replace('Show', 'Hide'));
+					}
+				});
+			</script>
+		</div>
+		<br style="clear: both;" />
+	</div>
+	<!-- DEMO - Lazy load content with nesting  -->
+	<div class="demoSection">
+		<h2>
+			Lazy load content with nesting</h2>
+		<div class="codeSection">
+		</div>
+		<div class="functionalSection">
+			<div id="lazyLoadNestingDemo" style="background-color: #E0E0FF;">
+				Show lazy loaded content
+			</div>
+			<div style="display: none; background-color: #E0FFE0;">
+			</div>
+			<script language="javascript" type="text/javascript">
+				$('#lazyLoadNestingDemo').expollapser({
+					'contentHtml': 'url:lazyLoadedContentNested.html',
+					'postContentLoad': function () {
+						$('#nestingDemo2').expollapser({
+							'contentHtml': 'togglerHref',
+							'toggler': 'headerLinks'
+						});
+					},
+					'headerChangeHtml': function (header) {
+						header.html(header.html().replace('Show', 'Hide'));
+					}
+				});
+			</script>
+		</div>
+		<br style="clear: both;" />
+	</div>
+	<!-- DEMO - Lazy load from multiple sources  -->
+	<div class="demoSection">
+		<h2>
+			Lazy load from multiple sources with multiple togglers</h2>
+		<div class="codeSection">
+		</div>
+		<div class="functionalSection">
+			<div id="lazyMultiDemo1" style="background-color: #E0E0FF;">
+				<a href="lazyLoadedContent.html">Show content 1</a>&nbsp;|&nbsp; <a href="lazyLoadedContent2.html">Show content 2</a>
+			</div>
+			<div style="display: none; background-color: #E0FFE0;">
+			</div>
+			<script language="javascript" type="text/javascript">
+				$('#lazyMultiDemo1').expollapser({
+					'toggler': 'headerLinks',
+					'contentHtml': 'togglerHref',
+					'togglerChangeHtml': function (toggler) {
+						toggler.html(toggler.html().replace('Show', 'Hide'));
+					}
+				});
+			</script>
+		</div>
+		<br style="clear: both;" />
+	</div>
+	<script language="javascript" type="text/javascript">
+		$(document).ready(function () {
+
+			$('.codeSection').each(function () {
+				$(this).html('<pre class=\"brush: xml\">' + FixAndFormatHtml($(this).next().html()) + '</pre>');
+			});
+
+			SyntaxHighlighter.all();
+			/*
+			$('.expander').expollapser({
+			'preExpand': myExpand,
+			'postCollapse': myCollapse,
+			'togglers' : function (headerElement) { return $('.collapsibleLink', headerElement).add('> .collapsibleLink', $(headerElement).next()); },
+			'expand-header-css': 'expandedPart',
+			'expand-content-css': 'expandedPart',
+			'header-expand-html' : 'Some heading<br />	<a href="#" class="collapsibleLink">Show less</a>',
+			'autoHookupChildrenOn': '.expander',
+			'preExpand': function (header, content) {
+			header.siblings('.expander').expollapser('disable').addClass('disabledExpander');
+			},
+			'postCollapse': function (header, content) {
+			header.siblings('.expander').expollapser('enable').removeClass('disabledExpander');
+			}
+			});
+			*/
+		});
+
+		function myExpand(header, content) {
+			$('a', header).text('Show less');
+		}
+
+		function myCollapse(header, content) {
+			$('a', header).text('Show more');
+		}
+
+		function FixAndFormatHtml(source) {
+			var js_source = source.replace(/^\s+/, '');
+			js_source = cleanhtml(js_source);
+			var indent_size = 4;
+			var indent_char = ' ';
+			var preserve_newlines = true;
+			var keep_array_indentation = true;
+			var braces_on_own_line = false;
+			var html;
+
+			if (js_source && js_source[0] === '<' && js_source.substring(0, 4) !== '<!--') {
+				html = style_html(js_source, indent_size, indent_char, 80);
+			}
+			else {
+				html = js_beautify(js_source, {
+					indent_size: indent_size,
+					indent_char: indent_char,
+					preserve_newlines: preserve_newlines,
+					braces_on_own_line: braces_on_own_line,
+					keep_array_indentation: keep_array_indentation,
+					space_after_anon_function: true
+				});
+			}
+
+			html = html.replace(new RegExp('<', "gi"), '&lt;').replace(new RegExp('<', "gi"), '&gt;');
+
+			return html;
+		}
+
+		function cleanhtml(html) {
+			temphtml = html;
+
+			// get the html tags and loop through them
+			tempregexp = new RegExp("<[^>]+>", "g")
+			results = temphtml.match(tempregexp);
+			for (i = 0; i < results.length; i++) {
+				original = results[i];
+
+				// temporarily strip the already quoted attributes and loop through them
+				stripquoted = results[i].replace(/ [^=]+= *"[^"]*"/g, "");
+				tempregexp = new RegExp(" [^=]+=[^ |>]+", "g")
+				unquoted = stripquoted.match(tempregexp);
+				if (unquoted) {
+					for (j = 0; j < unquoted.length; j++) {
+						// add quotes to unquoted attributes					
+						addquotes = unquoted[j].replace(/( [^=]+=)([^ |>]+)/g, "$1\"$2\"");
+						results[i] = results[i].replace(unquoted[j], addquotes);
+					}
+				}
+				// convert tags to lowercase
+				results[i] = results[i].replace(/<\/?[^>|^ ]+/, function (x) { return x.toLowerCase() })
+				// convert attributes to lowercase
+				results[i] = results[i].replace(/ [^=]+="/g, function (y) { return y.toLowerCase() })
+				// convert style attributes to lowecase
+				results[i] = results[i].replace(/style="([^"]*)"/g, function (z) { return z.toLowerCase() })
+
+				// finally replace the existing tag with the new tag
+				temphtml = temphtml.replace(original, results[i]);
+			}
+			// this strips out tbody tags.
+			temphtml = temphtml.replace(/<\/?tbody>[^<]*/gi, "");
+			return temphtml;
+		}
+
+
+	</script>
+</body>
+</html>

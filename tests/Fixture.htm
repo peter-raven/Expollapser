@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title></title>
+	<script type="text/javascript" src="../jquery-1.4.1.js"></script>
+	<script type="text/javascript" src="qunit.js"></script>
+	<script type="text/javascript" src="../expollapser.js"></script>
+	<script type="text/javascript" src="sinon-1.0.0.js"></script>
+	<link rel="stylesheet" href="qunit.css" type="text/css" media="screen" />
+	<script type="text/javascript">
+
+		$(document).ready(function () {
+
+			module('Expollapser init');
+
+			test('Expollapser default init with no settings', function () {
+				$('#header1').expollapser();
+			});
+
+			test('Default init sets toggler to the header', function () {
+				var $header = $('#header1');
+				$header.expollapser();
+				equals($header.data('expollapser').settings.toggler($header).get(0), $header.get(0), 'Toggler should default to the header');
+			});
+
+			test('Toggler setting \'headerLinks\' will select all links in header', function () {
+				var $header = $('#header2');
+				$header.expollapser({ toggler: 'headerLinks' });
+				equals($header.data('expollapser').settings.toggler($header).get(0), $header.find('#link1, #link2').get(0), 'Toggler should select anchor tags in header');
+				equals($header.data('expollapser').settings.toggler($header).get(1), $header.find('#link1, #link2').get(1), 'Toggler should select anchor tags in header');
+			});
+
+			test('Toggler setting with jQuery expression will select inside header', function () {
+				var $header = $('#header3');
+				$header.expollapser({ toggler: 'span img.selector1' });
+				equals($header.data('expollapser').settings.toggler($header).get(0), $header.find('#image1').get(0), 'Toggler (jQuery) should select image tag in header');
+			});
+
+			test('Toggler setting with function will select using function', function () {
+				var $header = $('#header3');
+				var customToggler = function ($header) { return $('span img.selector1', $header); };
+				var mock = sinon.spy(customToggler);
+				$header.expollapser({ toggler: mock });
+				equals(mock.callCount, 1);
+				equals($header.data('expollapser').settings.toggler($header).get(0), $header.find('#image1').get(0), 'Toggler (function) should select image tag in header');
+			});
+
+			test('contentElement will default to next', function () {
+				var $header = $('#header4');
+				$header.expollapser();
+				equals($header.data('expollapser').settings.contentElement($header).get(0), $('#nextContent').get(0));
+			});
+
+			test('contentElement \'prev\' will select previous sibling to header', function () {
+				var $header = $('#header4');
+				$header.expollapser({ 'contentElement': 'prev' });
+				equals($header.data('expollapser').settings.contentElement($header).get(0), $('#prevContent').get(0));
+			});
+
+			test('contentElement with jQuery expression will select by jQuery', function () {
+				var $header = $('#header5');
+				$header.expollapser({ contentElement: '#jqContentElem' });
+				equals($header.data('expollapser').settings.contentElement($header).get(0), $('#jqContentElem').get(0));
+			});
+
+			test('contentElement with function will select by function', function () {
+				var $header = $('#header5');
+				var f = function ($header) { return $header.next().next().next() };
+				var mock = sinon.spy(f);
+				$header.expollapser({ contentElement: mock });
+				equals($header.data('expollapser').settings.contentElement($header).get(0), $('#jqContentElem').get(0));
+				equals(mock.callCount, 1);
+			});
+		});				
+	
+	</script>
+</head>
+<body>
+	<h1 id="qunit-header">
+		QUnit Tests for Expollapser</h1>
+	<h2 id="qunit-banner">
+	</h2>
+	<div id="qunit-testrunner-toolbar">
+	</div>
+	<h2 id="qunit-userAgent">
+	</h2>
+	<ol id="qunit-tests">
+	</ol>
+	<div id="qunit-fixture">
+		<div id="header1"></div>
+		<div id="content1"></div>
+		<div id="header2"><a href="someUrl" id="link1">Link 1</a><a href="someUrl" id="link2">Link 2</a></div>
+		<div id="content2"></div>
+		<div id="header3"><span><img id="image1" src="none" class="selector1" /></span></div>
+		<div id="content"></div>
+		<div id="prevContent"></div>
+		<div id="header4"></div>
+		<div id="nextContent"></div>
+		<div id="header5"></div>
+		<div>Some other div</div>
+		<p>Some paragraph</p>
+		<div id="jqContentElem"></div>
+	</div>
+</body>
+</html>

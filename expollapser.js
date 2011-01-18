@@ -1,4 +1,5 @@
 /*
+Expollapser version 0.8.124
 
 init: Use this method to initialize the expollapser.
 	toggler: Controls what element should work as toggler(s) for the expollapsible.

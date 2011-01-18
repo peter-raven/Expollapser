@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{41177934-0426-4189-B238-63837E466322}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ExpanderWorkBench</RootNamespace>
+    <AssemblyName>ExpanderWorkBench</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <FilesToIncludeForPublish>AllFilesInTheProject</FilesToIncludeForPublish>
+    <ExcludeGeneratedDebugSymbol>true</ExcludeGeneratedDebugSymbol>
+    <ExcludeApp_Data>true</ExcludeApp_Data>
+    <PublishDatabases>false</PublishDatabases>
+    <PackageAsSingleFile>true</PackageAsSingleFile>
+    <DeployIisAppPath>Default Web Site/Expollapser</DeployIisAppPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\Demo\beautify-cl.js">
+      <Link>Demo\beautify-cl.js</Link>
+    </Content>
+    <Content Include="..\..\..\Demo\beautify-html.js">
+      <Link>Demo\beautify-html.js</Link>
+    </Content>
+    <Content Include="..\..\..\Demo\beautify.js">
+      <Link>Demo\beautify.js</Link>
+    </Content>
+    <Content Include="..\..\..\Demo\Demo.html">
+      <Link>Demo\Demo.html</Link>
+    </Content>
+    <Content Include="..\..\..\Demo\lazyLoadedContent.html">
+      <Link>Demo\lazyLoadedContent.html</Link>
+    </Content>
+    <Content Include="..\..\..\Demo\lazyLoadedContent2.html">
+      <Link>Demo\lazyLoadedContent2.html</Link>
+    </Content>
+    <Content Include="..\..\..\Demo\lazyLoadedContentNested.html">
+      <Link>Demo\lazyLoadedContentNested.html</Link>
+    </Content>
+    <Content Include="..\..\..\Demo\shBrushJScript.js">
+      <Link>Demo\shBrushJScript.js</Link>
+    </Content>
+    <Content Include="..\..\..\Demo\shBrushPlain.js">
+      <Link>Demo\shBrushPlain.js</Link>
+    </Content>
+    <Content Include="..\..\..\Demo\shBrushXml.js">
+      <Link>Demo\shBrushXml.js</Link>
+    </Content>
+    <Content Include="..\..\..\Demo\shCore.css">
+      <Link>Demo\shCore.css</Link>
+    </Content>
+    <Content Include="..\..\..\Demo\shCore.js">
+      <Link>Demo\shCore.js</Link>
+    </Content>
+    <Content Include="..\..\..\Demo\shThemeDefault.css">
+      <Link>Demo\shThemeDefault.css</Link>
+    </Content>
+    <Content Include="..\..\..\expollapser.js">
+      <Link>expollapser.js</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\jquery-1.4.1-vsdoc.js">
+      <Link>jquery-1.4.1-vsdoc.js</Link>
+    </Content>
+    <Content Include="..\..\..\jquery-1.4.1.js">
+      <Link>jquery-1.4.1.js</Link>
+    </Content>
+    <Content Include="..\..\..\Tests\Fixture.htm">
+      <Link>Tests\Fixture.htm</Link>
+    </Content>
+    <Content Include="..\..\..\Tests\qunit.css">
+      <Link>Tests\qunit.css</Link>
+    </Content>
+    <Content Include="..\..\..\Tests\qunit.js">
+      <Link>Tests\qunit.js</Link>
+    </Content>
+    <Content Include="..\..\..\Tests\sinon-1.0.0.js">
+      <Link>Tests\sinon-1.0.0.js</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>8455</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

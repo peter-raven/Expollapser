@@ -68,7 +68,7 @@
 				var f = function ($header) { return $header.next().next().next() };
 				var mock = sinon.spy(f);
 				$header.expollapser({ contentElement: mock });
-				equals($header.data('expollapser').settings.contentElement($header).get(0), $('#jqContentElem').get(0));
+				equals($header.data('expollapser').settings.contentElement($header).get(0), $('#jqContentElemx').get(0));
 				equals(mock.callCount, 1);
 			});
 		});				

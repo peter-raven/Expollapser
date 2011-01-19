@@ -1,15 +1,14 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-   <UsingTask AssemblyFile="../Lib/BuildTasks.dll" TaskName="BuildTasks.SetBuildNumber" />
-   
-   <PropertyGroup>
-      <BUILD_VCS_NUMBER>124</BUILD_VCS_NUMBER>
-   </PropertyGroup>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+	<UsingTask AssemblyFile="../Lib/BuildTasks.dll" TaskName="BuildTasks.SetBuildNumber" />
 
-   <Target Name="BuildNumbering">
-      <SetBuildNumber Path="../../" Filename="expollapser.js" BuildNumberRegExPattern="(version \d+\.\d+)\.(\d+)" BuildNumber="$(BUILD_VCS_NUMBER)" />
-   </Target>
-   <Target Name="Build" DependsOnTargets="BuildNumbering">
-      <MSBuild Projects="$(MSBuildProjectDirectory)\..\..\Expollapser.sln" Targets="Build" Properties="Configuration=$(Configuration)" />
-   </Target>
-   
+	<PropertyGroup>
+		<BUILD_VCS_NUMBER Condition="'$(BUILD_VCS_NUMBER)' == '' ">125</BUILD_VCS_NUMBER>
+	</PropertyGroup>
+
+	<Target Name="BuildNumbering">
+		<SetBuildNumber Path="../Application/Workbench/bin/$(Configuration)" Filename="expollapser.js" BuildNumberRegExPattern="(version \d+\.\d+)\.(\d+)" BuildNumber="$(BUILD_VCS_NUMBER)" />
+	</Target>
+	<Target Name="Build" DependsOnTargets="BuildNumbering">
+		<MSBuild Projects="$(MSBuildProjectDirectory)\..\..\Expollapser.sln" Targets="Build" Properties="Configuration=$(Configuration)" />
+	</Target>
 </Project>

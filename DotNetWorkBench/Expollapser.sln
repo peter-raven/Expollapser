@@ -7,6 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "Tests\UnitTest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildTasks", "Build\BuildTasks\BuildTasks.csproj", "{B2E51AC6-BE3A-42D0-8BBE-40EF7F2CEFFB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{04D4551D-3B1A-4CD8-8631-F4DE3FDB9549}"
+	ProjectSection(SolutionItems) = preProject
+		Build\BuildExpollapser.proj = Build\BuildExpollapser.proj
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3760124F-6E57-4B89-BE62-55C17A541A87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,5 +35,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B2E51AC6-BE3A-42D0-8BBE-40EF7F2CEFFB} = {04D4551D-3B1A-4CD8-8631-F4DE3FDB9549}
+		{7B396C7B-6247-44C8-AC9C-3A2F1EC516E6} = {3760124F-6E57-4B89-BE62-55C17A541A87}
 	EndGlobalSection
 EndGlobal

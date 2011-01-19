@@ -56,15 +56,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\Demo\beautify-cl.js">
-      <Link>Demo\beautify-cl.js</Link>
-    </Content>
-    <Content Include="..\..\..\Demo\beautify-html.js">
-      <Link>Demo\beautify-html.js</Link>
-    </Content>
-    <Content Include="..\..\..\Demo\beautify.js">
-      <Link>Demo\beautify.js</Link>
-    </Content>
     <Content Include="..\..\..\Demo\Demo.html">
       <Link>Demo\Demo.html</Link>
     </Content>
@@ -77,45 +68,12 @@
     <Content Include="..\..\..\Demo\lazyLoadedContentNested.html">
       <Link>Demo\lazyLoadedContentNested.html</Link>
     </Content>
-    <Content Include="..\..\..\Demo\shBrushJScript.js">
-      <Link>Demo\shBrushJScript.js</Link>
-    </Content>
-    <Content Include="..\..\..\Demo\shBrushPlain.js">
-      <Link>Demo\shBrushPlain.js</Link>
-    </Content>
-    <Content Include="..\..\..\Demo\shBrushXml.js">
-      <Link>Demo\shBrushXml.js</Link>
-    </Content>
-    <Content Include="..\..\..\Demo\shCore.css">
-      <Link>Demo\shCore.css</Link>
-    </Content>
-    <Content Include="..\..\..\Demo\shCore.js">
-      <Link>Demo\shCore.js</Link>
-    </Content>
-    <Content Include="..\..\..\Demo\shThemeDefault.css">
-      <Link>Demo\shThemeDefault.css</Link>
-    </Content>
     <Content Include="..\..\..\expollapser.js">
       <Link>expollapser.js</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\jquery-1.4.1-vsdoc.js">
-      <Link>jquery-1.4.1-vsdoc.js</Link>
-    </Content>
-    <Content Include="..\..\..\jquery-1.4.1.js">
-      <Link>jquery-1.4.1.js</Link>
-    </Content>
     <Content Include="..\..\..\Tests\Fixture.htm">
       <Link>Tests\Fixture.htm</Link>
-    </Content>
-    <Content Include="..\..\..\Tests\qunit.css">
-      <Link>Tests\qunit.css</Link>
-    </Content>
-    <Content Include="..\..\..\Tests\qunit.js">
-      <Link>Tests\qunit.js</Link>
-    </Content>
-    <Content Include="..\..\..\Tests\sinon-1.0.0.js">
-      <Link>Tests\sinon-1.0.0.js</Link>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +100,10 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetDir)\expollapser.js $(SolutionDir)..\Demo\js
+copy $(TargetDir)\expollapser.js $(SolutionDir)..\Tests\js</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -26,8 +26,8 @@
 	</Target>
 
 	<Target Name="DeployToStaging" DependsOnTargets="BuildSolution">
-		<Copy SourceFiles="@(StagingFilesDemoSite)" DestinationFiles="@(StagingFiles -> '$(StagingPath)\demosite\%(RecursiveDir)%(Filename)%(Extension)')" />
-		<Copy SourceFiles="@(StagingFilesTests)" DestinationFiles="@(StagingFiles -> '$(StagingPath)\tests\%(RecursiveDir)%(Filename)%(Extension)')" />
+		<Copy SourceFiles="@(StagingFilesDemoSite)" DestinationFiles="@(StagingFilesDemoSite -> '$(StagingPath)\demosite\%(RecursiveDir)%(Filename)%(Extension)')" />
+		<Copy SourceFiles="@(StagingFilesTests)" DestinationFiles="@(StagingFilesTests -> '$(StagingPath)\tests\%(RecursiveDir)%(Filename)%(Extension)')" />
 	</Target>
 	
 <!--

@@ -11,7 +11,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<StagingFiles Include="$(MSBuildProjectDirectory)\..\..\demosite\**\*.*;$(MSBuildProjectDirectory)\..\..\tests\**\*.*" />
+		<StagingFilesDemoSite Include="$(MSBuildProjectDirectory)\..\..\demosite\**\*.*" />
+		<StagingFilesTests Include="$(MSBuildProjectDirectory)\..\..\tests\**\*.*" />
 	</ItemGroup>
 
 	<Target Name="BuildNumbering">
@@ -25,7 +26,8 @@
 	</Target>
 
 	<Target Name="DeployToStaging" DependsOnTargets="BuildSolution">
-		<Copy SourceFiles="@(StagingFiles)" DestinationFiles="@(StagingFiles -> '$(StagingPath)\%(RecursiveDir)%(Filename)%(Extension)')" />
+		<Copy SourceFiles="@(StagingFilesDemoSite)" DestinationFiles="@(StagingFiles -> '$(StagingPath)\demosite\%(RecursiveDir)%(Filename)%(Extension)')" />
+		<Copy SourceFiles="@(StagingFilesTests)" DestinationFiles="@(StagingFiles -> '$(StagingPath)\tests\%(RecursiveDir)%(Filename)%(Extension)')" />
 	</Target>
 	
 <!--

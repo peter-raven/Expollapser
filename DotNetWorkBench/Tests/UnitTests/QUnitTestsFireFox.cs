@@ -7,10 +7,10 @@ namespace UnitTests
     using NUnit.Framework;
 
     [TestFixture]
-    public class QUnitTests : JavaScriptUnitTestBase
+    public class QUnitTestsFireFox : JavaScriptUnitTestBase
     {
-        public QUnitTests()
-            : base(new SeleniumQUnitTestRunner(), new QUnitTestResultsParser())
+        public QUnitTestsFireFox()
+            : base(new SeleniumQUnitTestRunner("*firefox"), new QUnitTestResultsParser())
         {
         }
 
@@ -18,7 +18,7 @@ namespace UnitTests
         {
             get
             {
-                return new[] { @"http://localhost:8444/Fixture.htm" };
+                return new[] { @"http://localhost:8444/tests/Fixture.htm" };
             }
         }
     }

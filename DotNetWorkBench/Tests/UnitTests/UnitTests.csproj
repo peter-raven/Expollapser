@@ -55,7 +55,7 @@
     <Compile Include="JavascriptUnitTest.cs" />
     <Compile Include="JavascriptUnitTestHelpers.cs" />
     <Compile Include="JavaScriptUnitTestBase.cs" />
-    <Compile Include="QUnitTests.cs" />
+    <Compile Include="QUnitTestsFireFox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QUnitTestResultsParser.cs" />
     <Compile Include="SeleniumQUnitTestRunner.cs" />

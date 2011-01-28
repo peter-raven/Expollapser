@@ -11,8 +11,14 @@
 
     public class SeleniumQUnitTestRunner : IJavasriptUnitTestRunner
     {
+        private readonly string _browserCode;
         private ISelenium selenium;
         private StringBuilder verificationErrors;
+
+        public SeleniumQUnitTestRunner(string browserCode)
+        {
+            _browserCode = browserCode;
+        }
 
         public string GetJavaScriptUnitTestResultsElement(string testPageUrl)
         {
@@ -39,7 +45,7 @@
 
         public void SetupSeleniumFixture()
         {
-            selenium = new DefaultSelenium("localhost", 4444, "*firefox", "http://blank.org");
+            selenium = new DefaultSelenium("localhost", 4444, _browserCode, "http://blank.org");
             selenium.Start();
             verificationErrors = new StringBuilder();
         }

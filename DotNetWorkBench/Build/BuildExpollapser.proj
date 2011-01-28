@@ -1,14 +1,39 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5" DefaultTargets="Build">
 	<UsingTask AssemblyFile="../Lib/BuildTasks.dll" TaskName="BuildTasks.SetBuildNumber" />
 
 	<PropertyGroup>
-		<BUILD_VCS_NUMBER Condition="'$(BUILD_VCS_NUMBER)' == '' ">125</BUILD_VCS_NUMBER>
+		<BUILD_NUMBER Condition="'$(BUILD_NUMBER)' == '' ">0</BUILD_NUMBER>
+		<Configuration>Release</Configuration>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<StagingPath>D:\shares\TeamCity\stagingweb</StagingPath>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<StagingFiles Include="$(MSBuildProjectDirectory)\..\..\demosite\**\*.*;$(MSBuildProjectDirectory)\..\..\tests\**\*.*" />
+	</ItemGroup>
+
 	<Target Name="BuildNumbering">
-		<SetBuildNumber Path="../Application/Workbench/bin/$(Configuration)" Filename="expollapser.js" BuildNumberRegExPattern="(version \d+\.\d+)\.(\d+)" BuildNumber="$(BUILD_VCS_NUMBER)" />
+		<SetBuildNumber Path="$(MSBuildProjectDirectory)\..\..\" Filename="expollapser.js" BuildNumberRegExPattern="(version \d+\.\d+)\.(\d+)" BuildNumber="$(BUILD_NUMBER)" />
 	</Target>
-	<Target Name="Build" DependsOnTargets="BuildNumbering">
-		<MSBuild Projects="$(MSBuildProjectDirectory)\..\..\Expollapser.sln" Targets="Build" Properties="Configuration=$(Configuration)" />
+
+	<Target Name="BuildSolution" DependsOnTargets="BuildNumbering">
+		<MSBuild Projects="$(MSBuildProjectDirectory)\..\Expollapser.sln" Targets="Rebuild" Properties="Configuration=$(Configuration)" />
+		<Copy SourceFiles="$(MSBuildProjectDirectory)\..\..\expollapser.js" DestinationFiles="$(MSBuildProjectDirectory)\..\..\demosite\js\expollapser.js" />
+		<Copy SourceFiles="$(MSBuildProjectDirectory)\..\..\expollapser.js" DestinationFiles="$(MSBuildProjectDirectory)\..\..\tests\js\expollapser.js" />
+	</Target>
+
+	<Target Name="DeployToStaging" DependsOnTargets="BuildSolution">
+		<Copy SourceFiles="@(StagingFiles)" DestinationFiles="@(StagingFiles -> '$(StagingPath)\%(RecursiveDir)%(Filename)%(Extension)')" />
+	</Target>
+	
+<!--
+	<Target Name="RunSeleniumTests" DependsOnTargets="DeployToStaging">
+		<Exec Command="&quot;$(MSBuildProjectDirectory)\..\packages\NUnit.2.5.7.10213\Tools\nunit-console-x86.exe&quot; &quot;$(MSBuildProjectDirectory)\..\Tests\UnitTests\bin\$(Configuration)\UnitTests.dll&quot;" />
+	</Target>
+-->	
+	<Target Name="Build" DependsOnTargets="DeployToStaging">
+		
 	</Target>
 </Project>

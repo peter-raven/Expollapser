@@ -1,5 +1,5 @@
 /*
-Expollapser version 0.8.1212
+Expollapser version 0.8.0
 
 init: Use this method to initialize the expollapser.
 	toggler: Controls what element should work as toggler(s) for the expollapsible.
@@ -14,7 +14,12 @@ init: Use this method to initialize the expollapser.
 		jQuery expression : The supplied jQuery expression will determine the content element.
 		function (headerElement) : A custom function that is given the header element and should return a jQuery object
 															 representing the content element.
+	expandHeaderCss: CSS class(es) to apply to the header when the expollapser is expanded.
+
+
 expandContentCss : CSS class(es) to apply on the header when the expollapser is expanded.
+
+Syntax for all css settings:
 You can use 'classname' which will automatically apply the class on expand and remove the class on collapse. Or you
 can use '+classname' to dictate that the class should be added on expand, but not removed. Or you can use '-classname'
 the dictate that the class should be removed on expand.

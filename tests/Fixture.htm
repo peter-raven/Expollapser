@@ -71,6 +71,18 @@
 				equals($header.data('expollapser').settings.contentElement($header).get(0), $('#jqContentElem').get(0));
 				equals(mock.callCount, 1);
 			});
+
+			module('Expand');
+
+			test('expandHeaderCss will not affect header css on init', function () {
+				var $header = $('#header6');
+				$header.expollapser({ expandHeaderCss: 'myHeaderCss' });
+				ok(!$header.hasClass('myHeaderCss'));
+			});
+
+			// test('expandHeaderCss will apply css to header on expand');
+
+			// test('expandHeaderCss will remove added css from header on collapse');
 		});				
 	
 	</script>
@@ -100,6 +112,7 @@
 		<div>Some other div</div>
 		<p>Some paragraph</p>
 		<div id="jqContentElem"></div>
+		<div id="header6"></div>
 	</div>
 </body>
 </html>

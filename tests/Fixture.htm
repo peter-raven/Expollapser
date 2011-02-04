@@ -4,7 +4,7 @@
 	<title></title>
 	<script type="text/javascript" src="js/jquery-1.4.1.js"></script>
 	<script type="text/javascript" src="js/qunit.js"></script>
-	<script type="text/javascript" src="js/expollapser.js"></script>
+	<script type="text/javascript" src="../expollapser.js"></script>
 	<script type="text/javascript" src="js/sinon-1.0.0.js"></script>
 	<link rel="stylesheet" href="css/qunit.css" type="text/css" media="screen" />
 	<script type="text/javascript">
@@ -20,7 +20,8 @@
 			test('Default init sets toggler to the header', function () {
 				var $header = $('#header1');
 				$header.expollapser();
-				equals($header.data('expollapser').settings.toggler($header).get(0), $header.get(0), 'Toggler should default to the header');
+				equals($header.data('expollapser').settings.toggler($header).get(0), $header.get(0), 'Toggler should default to the header (header supplied as parameter)');
+				equals($header.data('expollapser').settings.toggler().get(0), $header.get(0), 'Toggler should default to the header (no header supplied as parameter)');
 			});
 
 			test('Toggler setting \'headerLinks\' will select all links in header', function () {
@@ -60,6 +61,7 @@
 			test('contentElement with jQuery expression will select by jQuery', function () {
 				var $header = $('#header5');
 				$header.expollapser({ contentElement: '#jqContentElem' });
+
 				equals($header.data('expollapser').settings.contentElement($header).get(0), $('#jqContentElem').get(0));
 			});
 
@@ -68,6 +70,7 @@
 				var f = function ($header) { return $header.next().next().next() };
 				var mock = sinon.spy(f);
 				$header.expollapser({ contentElement: mock });
+
 				equals($header.data('expollapser').settings.contentElement($header).get(0), $('#jqContentElem').get(0));
 				equals(mock.callCount, 1);
 			});
@@ -80,9 +83,23 @@
 				ok(!$header.hasClass('myHeaderCss'));
 			});
 
-			// test('expandHeaderCss will apply css to header on expand');
+			test('expandHeaderCss will apply css to header on expand', function () {
+				var $header = $('#header7');
+				$header.expollapser({ expandHeaderCss: 'myHeaderCss' });
+				$header.expollapser('expand');
 
-			// test('expandHeaderCss will remove added css from header on collapse');
+				ok($header.hasClass('myHeaderCss'));
+			});
+
+			test('expandHeaderCss will remove added css from header on collapse', function () {
+				var $header = $('#header8');
+				$header.expollapser({ expandHeaderCss: 'myHeaderCss' });
+				$header.expollapser('expand');
+				$header.expollapser('collapse');
+				ok(!$header.hasClass('myHeaderCss'));
+			});
+
+			
 		});				
 	
 	</script>
@@ -113,6 +130,8 @@
 		<p>Some paragraph</p>
 		<div id="jqContentElem"></div>
 		<div id="header6"></div>
+		<div id="header7"></div>
+		<div id="header8"></div>
 	</div>
 </body>
 </html>

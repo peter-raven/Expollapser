@@ -76,7 +76,7 @@ function expollapser_setDefaults(options) {
 
 					// Process the settings, basically by converting all convenience string settings
 					// to underlying functions.
-					settings.toggler = processTogglers(settings.toggler);
+					settings.toggler = processTogglers(settings.toggler, $this);
 					settings.contentElement = processContentElement(settings.contentElement);
 					processCssSetting(settings, 'expandHeaderCss', 'collapseHeaderCss');
 					processCssSetting(settings, 'expandContentCss', 'collapseContentCss');
@@ -149,7 +149,7 @@ function expollapser_setDefaults(options) {
 				var settings = $this.data('expollapser').settings;
 				if (data.isopen == false && data.disabled == false) {
 					if (toggler == null)
-						toggler = settings.toggler.get(0);
+						toggler = $(settings.toggler($this).get(0));
 					var contentElement = settings.contentElement($this);
 					settings.preExpand($this, contentElement, toggler);
 					applyCss(settings.expandHeaderCss, $this);
@@ -263,11 +263,11 @@ function expollapser_setDefaults(options) {
 	}
 
 	// Parse for convenience settings in togglers
-	function processTogglers(togglersSetting) {
+	function processTogglers(togglersSetting, element) {
 		assertStringOrFunction(togglersSetting, 'togglers');
 		if (typeof togglersSetting === 'string') {
 			if (togglersSetting == 'header') {
-				togglersSetting = function(headerElement) { return headerElement; };
+				togglersSetting = function(headerElement) { return element; };
 			}
 			else if (togglersSetting == 'headerLinks') {
 				togglersSetting = function(headerElement) { return $('a', headerElement); };
@@ -366,7 +366,7 @@ function expollapser_setDefaults(options) {
 	}
 
 	function getUniqueId(elem1, elem2, elem3) {
-		return elem1.attr($.expando) + elem2.attr($.expando) + elem3.attr($.expando);
+		return $(elem1).attr($.expando) + $(elem2).attr($.expando) + $(elem3).attr($.expando);
 	}
 
 	// Applies the supplied css setting to the supplied element.

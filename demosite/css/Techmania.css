@@ -313,6 +313,12 @@ input.button {
 	min-height: 18px;	
 }
 
+#sidebar ul.sidemenu a.selected {
+	background: #f2f2f2;
+	color: #339900;
+	border-left:5px solid #72A545;	
+}
+
 * html body #sidebar ul.sidemenu a { height: 18px; }
 
 #sidebar ul.sidemenu a:hover {

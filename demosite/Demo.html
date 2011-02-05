@@ -74,31 +74,11 @@
 	</style>
 </head>
 <body>
-	<h1>
+	<h2>
 		Expollapser demo
-	</h1>
+	</h2>
 	<!-- Simple expander -->
-	<div class="demoSection">
-		<h2>Simple expander</h2>
-		This is the simplest way to use the expollapser. The header will automatically be made clickable and work
-		as a toggler between showing and hiding the content. The content must be the next sibling DOM element relative to the header
-		(or you will have to use the <a href="#"><code>contentElement</code></a> setting.<br />
-		<br />
-		<div class="codeSection">
-		</div>
-		<div class="functionalSection">
-			<div id="simpleDemo1" style="background-color: #E0E0FF;">
-				Click this heading to toggle
-			</div>
-			<div style="display: none; background-color: #E0FFE0;">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-			</div>
-			<script language="javascript" type="text/javascript">
-				$('#simpleDemo1').expollapser();
-			</script>
-		</div>
-		<br style="clear: both;" />
-	</div>
+	
 	<!-- Using contentElement to identidy content part -->
 	<div class="demoSection">
 		<h2>Using contentElement to identify content partr</h2>
@@ -171,29 +151,6 @@
 		</div>
 		<br style="clear: both;" />
 	</div>
-	<!-- DEMO - using links in header as togglers -->
-	<div class="demoSection">
-		<h2>
-			Using links in header as toggler</h2>
-			In expollapser's default setting, the header will be made clickable and will thereby work as the
-			toggler. In some cases (for instance to follow WCAG guidelines, keyboard navigation, etc), you may
-			want only real (a href) links inside the header to work as togglers. Use the <code>toggler</code> setting <code>headerLinks</code> for this.
-		<div class="codeSection">
-		</div>
-		<div class="functionalSection">
-			<div id="togglerHeaderLinksDemo" style="background-color: #E0E0FF;">
-				<a href="#">Click this link to toggle</a>
-			</div>
-			<div style="display: none; background-color: #E0FFE0;">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-			</div>
-			<script language="javascript" type="text/javascript">
-				$('#togglerHeaderLinksDemo').expollapser({
-					'toggler': 'headerLinks' });
-			</script>
-		</div>
-		<br style="clear: both;" />
-	</div>
 	<!-- DEMO - identifying togglers using a function -->
 	<div class="demoSection">
 		<h2>
@@ -212,32 +169,6 @@
 				$('#togglerFunctionDemo1').expollapser({
 					'toggler': function (header) { return $('a.onlyTheseLinks', header); }
 				});
-			</script>
-		</div>
-		<br style="clear: both;" />
-	</div>
-	<!-- DEMO - nesting -->
-	<div class="demoSection">
-		<h2>
-			Nesting</h2>
-		<div class="codeSection">
-		</div>
-		<div class="functionalSection">
-			<div class="nestingDemo1" style="background-color: #E0E0FF;">
-				First level header
-			</div>
-			<div style="display: none; background-color: #E0FFE0;">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br />
-				<div class="nestingDemo1" style="background-color: #E0E0FF;">
-					Second level header
-				</div>
-				<div style="display: none;">
-					Second level content<br />
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-				</div>
-			</div>
-			<script language="javascript" type="text/javascript">
-				$('.nestingDemo1').expollapser();
 			</script>
 		</div>
 		<br style="clear: both;" />

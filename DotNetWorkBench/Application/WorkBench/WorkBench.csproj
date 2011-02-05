@@ -64,6 +64,12 @@
     <Content Include="..\..\..\demosite\about.html">
       <Link>Demosite\about.html</Link>
     </Content>
+    <Content Include="..\..\..\demosite\css\demo.css">
+      <Link>Demosite\css\demo.css</Link>
+    </Content>
+    <Content Include="..\..\..\demosite\css\jquery-ui-1.8.9.custom.css">
+      <Link>Demosite\css\jquery-ui-1.8.9.custom.css</Link>
+    </Content>
     <Content Include="..\..\..\demosite\css\shCore.css">
       <Link>Demosite\css\shCore.css</Link>
     </Content>
@@ -93,6 +99,9 @@
     </Content>
     <Content Include="..\..\..\demosite\js\beautify.js">
       <Link>Demosite\js\beautify.js</Link>
+    </Content>
+    <Content Include="..\..\..\demosite\js\demoFormatting.js">
+      <Link>Demosite\js\demoFormatting.js</Link>
     </Content>
     <Content Include="..\..\..\demosite\js\expollapser.js">
       <Link>Demosite\js\expollapser.js</Link>

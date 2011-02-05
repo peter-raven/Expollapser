@@ -61,17 +61,68 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\Demo\Demo.html">
-      <Link>Demo\Demo.html</Link>
+    <Content Include="..\..\..\demosite\about.html">
+      <Link>Demosite\about.html</Link>
     </Content>
-    <Content Include="..\..\..\Demo\lazyLoadedContent.html">
-      <Link>Demo\lazyLoadedContent.html</Link>
+    <Content Include="..\..\..\demosite\css\shCore.css">
+      <Link>Demosite\css\shCore.css</Link>
     </Content>
-    <Content Include="..\..\..\Demo\lazyLoadedContent2.html">
-      <Link>Demo\lazyLoadedContent2.html</Link>
+    <Content Include="..\..\..\demosite\css\shThemeDefault.css">
+      <Link>Demosite\css\shThemeDefault.css</Link>
     </Content>
-    <Content Include="..\..\..\Demo\lazyLoadedContentNested.html">
-      <Link>Demo\lazyLoadedContentNested.html</Link>
+    <Content Include="..\..\..\demosite\css\Techmania.css">
+      <Link>Demosite\css\Techmania.css</Link>
+    </Content>
+    <Content Include="..\..\..\demosite\Demo.html">
+      <Link>Demosite\Demo.html</Link>
+    </Content>
+    <Content Include="..\..\..\demosite\docs.html">
+      <Link>Demosite\docs.html</Link>
+    </Content>
+    <Content Include="..\..\..\demosite\download.html">
+      <Link>Demosite\download.html</Link>
+    </Content>
+    <Content Include="..\..\..\demosite\index.html">
+      <Link>Demosite\index.html</Link>
+    </Content>
+    <Content Include="..\..\..\demosite\js\beautify-cl.js">
+      <Link>Demosite\js\beautify-cl.js</Link>
+    </Content>
+    <Content Include="..\..\..\demosite\js\beautify-html.js">
+      <Link>Demosite\js\beautify-html.js</Link>
+    </Content>
+    <Content Include="..\..\..\demosite\js\beautify.js">
+      <Link>Demosite\js\beautify.js</Link>
+    </Content>
+    <Content Include="..\..\..\demosite\js\expollapser.js">
+      <Link>Demosite\js\expollapser.js</Link>
+    </Content>
+    <Content Include="..\..\..\demosite\js\jquery-1.4.1.js">
+      <Link>Demosite\js\jquery-1.4.1.js</Link>
+    </Content>
+    <Content Include="..\..\..\demosite\js\shBrushJScript.js">
+      <Link>Demosite\js\shBrushJScript.js</Link>
+    </Content>
+    <Content Include="..\..\..\demosite\js\shBrushPlain.js">
+      <Link>Demosite\js\shBrushPlain.js</Link>
+    </Content>
+    <Content Include="..\..\..\demosite\js\shBrushXml.js">
+      <Link>Demosite\js\shBrushXml.js</Link>
+    </Content>
+    <Content Include="..\..\..\demosite\js\shCore.js">
+      <Link>Demosite\js\shCore.js</Link>
+    </Content>
+    <Content Include="..\..\..\demosite\lazyLoadedContent.html">
+      <Link>Demosite\lazyLoadedContent.html</Link>
+    </Content>
+    <Content Include="..\..\..\demosite\lazyLoadedContent2.html">
+      <Link>Demosite\lazyLoadedContent2.html</Link>
+    </Content>
+    <Content Include="..\..\..\demosite\lazyLoadedContentNested.html">
+      <Link>Demosite\lazyLoadedContentNested.html</Link>
+    </Content>
+    <Content Include="..\..\..\demosite\simpleDemos.html">
+      <Link>Demosite\simpleDemos.html</Link>
     </Content>
     <Content Include="..\..\..\expollapser.js">
       <Link>expollapser.js</Link>

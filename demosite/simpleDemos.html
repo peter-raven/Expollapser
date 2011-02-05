@@ -9,65 +9,19 @@
 	<meta name="robots" content="index, follow, noarchive" />
 	<meta name="googlebot" content="noarchive" />
 	<link rel="stylesheet" type="text/css" media="screen" href="css/Techmania.css" />
+	<link rel="Stylesheet" type="text/css" href="css/demo.css" />
+	<link href="css/shCore.css" rel="stylesheet" type="text/css" />
+	<link href="css/shThemeDefault.css" rel="stylesheet" type="text/css" />
+	<link href="css/jquery-ui-1.8.9.custom.css" rel="Stylesheet" type="text/css" />
 	<script src="js/jquery-1.4.1.js" type="text/javascript"></script>
+	<script src="js/jquery-ui-1.8.9.custom.min.js" type="text/javascript"></script>
 	<script src="js/expollapser.js" type="text/javascript"></script>
 	<script type="text/javascript" src="js/shCore.js"></script>
 	<script type="text/javascript" src="js/shBrushJScript.js"></script>
 	<script type="text/javascript" src="js/shBrushXml.js"></script>
 	<script type="text/javascript" src="js/beautify.js"></script>
 	<script type="text/javascript" src="js/beautify-html.js"></script>
-	<link href="css/shCore.css" rel="stylesheet" type="text/css" />
-	<link href="css/shThemeDefault.css" rel="stylesheet" type="text/css" />
-	<style type="text/css">
-		h1
-		{
-			font-size: 15pt;
-		}
-		h2
-		{
-			font-size: 12pt;
-		}
-		.demoSection
-		{
-			/* border: 1px solid grey;
-			padding: 8px; */
-		}
-		.demoSection .codeSection
-		{
-			float: left;
-			width: 57%;
-			margin-left:20px;
-			background: #FAFAFA;
-			border: 1px solid #EAEAEA;
-			text-align: left;
-			overflow: auto;
-		}
-		.demoSection .codeSection pre
-		{
-			font: 500 1em/1.5em 'Consolas' , 'Lucida Console' , 'courier new' , monospace;
-		}
-		.demoSection .functionalSection
-		{
-			float: right;
-			width: 35%;
-			height: 200px;
-			background-color: #f2f2f2;
-			padding: 10px;
-			margin-left: 15px;
-		}
-		.demoSection .functionalSection > div
-		{
-			padding: 8px;
-		}
-		.expandedPart
-		{
-			background-color: Silver;
-		}
-		.disabledExpander
-		{
-			color: Gray;
-		}
-	</style>
+	<script type="text/javascript" src="js/demoFormatting.js"></script>
 </head>
 <body>
 	<!-- wrap starts here -->
@@ -90,39 +44,100 @@
 		<!-- content-wrap starts here -->
 		<div id="content-wrap">
 			<div id="main">
-				<h1>
-					Simple demos</h1>
 				<!-- Simple expander -->
 				<div class="demoSection">
 					<h2>
 						Simple expander</h2>
-					<p>This is the simplest way to use the expollapser. The header will automatically be
-					made clickable and work as a toggler between showing and hiding the content. The
-					content must be the next sibling DOM element relative to the header (or you will
-					have to use the <a href="#"><code>contentElement</code></a> setting.</p>
-					<br />
-					<div class="codeSection">
-					</div>
-					<div class="functionalSection">
-						<div id="simpleDemo1" style="background-color: #E0E0FF;">
-							Click this heading to toggle
+					<p>
+						This is the simplest way to use the expollapser. The header will automatically be
+						made clickable and work as a toggler between showing and hiding the content. The
+						content must be the next sibling DOM element relative to the header (or you will
+						have to use the <a href="#"><code>contentElement</code></a> setting.</p>
+					<div class="tabular">
+						<ul>
+							<li><a href="#functional1"><span>Demo</span></a></li>
+							<li><a href="#code1"><span>Javascript Source</span></a></li>
+							<li><a href="#complete1"><span>Html Source</span></a></li>
+						</ul>
+						<div id="functional1" class="functionalSection">
+							<div id="simpleDemo1" style="background-color: #E0E0FF;">
+								Click this heading to toggle
+							</div>
+							<div style="display: none; background-color: #E0FFE0;">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							</div>
+							<script language="javascript" type="text/javascript">
+
+								$('#simpleDemo1').expollapser();
+							
+							</script>
 						</div>
-						<div style="display: none; background-color: #E0FFE0;">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+						<div id="code1" class="codeSection">
 						</div>
-						<script language="javascript" type="text/javascript">
-							$('#simpleDemo1').expollapser();
-						</script>
+						<div id="complete1" class="completeCodeSection">
+						</div>
 					</div>
-					<br style="clear: both;" />
 				</div>
+				<div class="demoSection">
+					<h2>
+						Toggling header</h2>
+					<p>
+					</p>
+					<div class="tabular">
+						<ul>
+							<li><a href="#functional2"><span>Demo</span></a></li>
+							<li><a href="#code2"><span>Javascript Source</span></a></li>
+							<li><a href="#complete2"><span>Html Source</span></a></li>
+						</ul>
+						<div id="functional2" class="functionalSection">
+							<div id="togglingHeaderDemo1" style="background-color: #E0E0FF;">
+								Show more...
+							</div>
+							<div style="display: none; background-color: #E0FFE0;">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							</div>
+							<script language="javascript" type="text/javascript">
+								$('#togglingHeaderDemo1').expollapser({
+									'headerChangeHtml': 'Show less...'
+								});
+							</script>
+						</div>
+						<div id="code2" class="codeSection">
+						</div>
+						<div id="complete2" class="completeCodeSection">
+						</div>
+					</div>
+				</div>
+				<div class="demoSection" style="display: none">
+					<h2>
+					</h2>
+					<p>
+					</p>
+					<div class="tabular">
+						<ul>
+							<li><a href="#functionalx"><span>Demo</span></a></li>
+							<li><a href="#codex"><span>Javascript Source</span></a></li>
+							<li><a href="#completex"><span>Html Source</span></a></li>
+						</ul>
+						<div id="functionalx" class="functionalSection">
+						  <script></script>
+						</div>
+						<div id="codex" class="codeSection">
+						</div>
+						<div id="completex" class="completeCodeSection">
+						</div>
+					</div>
+				</div>
+				<p>
+					&nbsp;</p>
 			</div>
 			<div id="sidebar">
-				<h1>Demos</h1>				
+				<h2>
+					Demos</h2>
 				<ul class="sidemenu">
-					<li><a href="index.html">Simple</a></li>
+					<li><a href="index.html" class="selected">Simple</a></li>
 					<li><a href="#TemplateInfo">Advanced</a></li>
-			  </ul>				
+				</ul>
 			</div>
 			<!-- content-wrap ends here -->
 		</div>
@@ -138,86 +153,18 @@
 	<script language="javascript" type="text/javascript">
 		$(document).ready(function () {
 
-			$('.codeSection').each(function () {
-				$(this).html('<pre class=\"brush: xml\">' + FixAndFormatHtml($(this).next().html()) + '</pre>');
+			$('.tabular').tabs();
+
+			$('div.completeCodeSection').each(function () {
+				$(this).html('<pre class=\"brush: xml\">' + fixAndFormat($(this).siblings('.functionalSection').html()) + '</pre>');
+			});
+
+			$('div.codeSection').each(function () {
+				$(this).html('<pre class=\"brush: js\">' + fixAndFormat($(this).siblings('.functionalSection').children('script').html()) + '</pre>');
 			});
 
 			SyntaxHighlighter.all();
 		});
-
-		function myExpand(header, content) {
-			$('a', header).text('Show less');
-		}
-
-		function myCollapse(header, content) {
-			$('a', header).text('Show more');
-		}
-
-		function FixAndFormatHtml(source) {
-			var js_source = source.replace(/^\s+/, '');
-			js_source = cleanhtml(js_source);
-			var indent_size = 4;
-			var indent_char = ' ';
-			var preserve_newlines = true;
-			var keep_array_indentation = true;
-			var braces_on_own_line = false;
-			var html;
-
-			if (js_source && js_source[0] === '<' && js_source.substring(0, 4) !== '<!--') {
-				html = style_html(js_source, indent_size, indent_char, 80);
-			}
-			else {
-				html = js_beautify(js_source, {
-					indent_size: indent_size,
-					indent_char: indent_char,
-					preserve_newlines: preserve_newlines,
-					braces_on_own_line: braces_on_own_line,
-					keep_array_indentation: keep_array_indentation,
-					space_after_anon_function: true
-				});
-			}
-
-			html = html.replace(new RegExp('<', "gi"), '&lt;').replace(new RegExp('<', "gi"), '&gt;');
-
-			return html;
-		}
-
-		function cleanhtml(html) {
-			temphtml = html;
-
-			// get the html tags and loop through them
-			tempregexp = new RegExp("<[^>]+>", "g")
-			results = temphtml.match(tempregexp);
-			for (i = 0; i < results.length; i++) {
-				original = results[i];
-
-				// temporarily strip the already quoted attributes and loop through them
-				stripquoted = results[i].replace(/ [^=]+= *"[^"]*"/g, "");
-				tempregexp = new RegExp(" [^=]+=[^ |>]+", "g")
-				unquoted = stripquoted.match(tempregexp);
-				if (unquoted) {
-					for (j = 0; j < unquoted.length; j++) {
-						// add quotes to unquoted attributes					
-						addquotes = unquoted[j].replace(/( [^=]+=)([^ |>]+)/g, "$1\"$2\"");
-						results[i] = results[i].replace(unquoted[j], addquotes);
-					}
-				}
-				// convert tags to lowercase
-				results[i] = results[i].replace(/<\/?[^>|^ ]+/, function (x) { return x.toLowerCase() })
-				// convert attributes to lowercase
-				results[i] = results[i].replace(/ [^=]+="/g, function (y) { return y.toLowerCase() })
-				// convert style attributes to lowecase
-				results[i] = results[i].replace(/style="([^"]*)"/g, function (z) { return z.toLowerCase() })
-
-				// finally replace the existing tag with the new tag
-				temphtml = temphtml.replace(original, results[i]);
-			}
-			// this strips out tbody tags.
-			temphtml = temphtml.replace(/<\/?tbody>[^<]*/gi, "");
-			return temphtml;
-		}
-
-
 	</script>
 </body>
 </html>

@@ -1,0 +1,35 @@
+h1
+{
+	font-size: 15pt;
+}
+h2
+{
+	font-size: 12pt;
+}
+.demoSection
+{
+}
+.demoSection .codeSection
+{
+	text-align: left;
+	overflow: auto;
+}
+.demoSection .codeSection pre
+{
+	font: 500 1em/1.5em 'Consolas' , 'Lucida Console' , 'courier new' , monospace;
+}
+.demoSection .functionalSection
+{
+}
+.demoSection .functionalSection > div
+{
+	padding: 8px;
+}
+.expandedPart
+{
+	background-color: Silver;
+}
+.disabledExpander
+{
+	color: Gray;
+}

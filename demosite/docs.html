@@ -30,75 +30,82 @@
 		</div>
 		<!-- content-wrap starts here -->
 		<div id="content-wrap">
-			<div id="main" style="width:770px">
+			<div id="main" style="width: 770px">
 				<h1>
 					Documentation</h1>
 				<p>
-				Expollapser needs a header element and a content element to work. The plugin needs to be attached
-				to the header element. The simplest way to use expollapser is like this:<br />
-				<br />
-				<code>$('#myElementId').expollapser();</code><br />
-				<br />
+					Expollapser needs a header element and a content element to work. The plugin needs
+					to be attached to the header element. The simplest way to use expollapser is like
+					this:<br />
+					<br />
+					<code>$('#myElementId').expollapser();</code><br />
+					<br />
 				</p>
 				<p>
-				The content element will be the next sibling element in the DOM, or you can explicitly specify the content
-				element using the <a href="#contentElement"><code>contentElement</code></a> setting.<br />
-				<br />
-				Finally, there needs to be an element that works as a toggler, ie. when this element is clicked, the content
-				element will be switched between expanded and collapsed state. If nothing else is specified, the header will
-				be made the toggler.
+					The content element will be the next sibling element in the DOM, or you can explicitly
+					specify the content element using the <a href="#contentElement"><code>contentElement</code></a>
+					setting.<br />
+					<br />
+					Finally, there needs to be an element that works as a toggler, ie. when this element
+					is clicked, the content element will be switched between expanded and collapsed
+					state. If nothing else is specified, the header will be made the toggler.
 				</p>
 				<p>
-				Expollapser can be used with the following parameters:
+					Expollapser can be used with the following parameters:
 				</p>
 				<ul>
 					<li><code>init</code>:<br />
-					Use this method to initialize the expollapser. This is the default if no parameters are specified.<br />
-					Example: <br />
-					<br />
-					<code>$('#myElementId').expollapser('init', {<br />
-					&nbsp;&nbsp;contentElement : 'next',<br />
-					&nbsp;&nbsp;toggler : 'headerLinks'<br />
-					});</code><br />
+						<span>Use this method to initialize the expollapser. This is the default if no parameters
+							are specified.</span><br />
+						<span>Example:</span>
+						<br />
+						<br />
+						<code>$('#myElementId').expollapser('init', {<br />
+							&nbsp;&nbsp;contentElement : 'next',<br />
+							&nbsp;&nbsp;toggler : 'headerLinks'<br />
+							});</code><br />
 						<ul>
-							<li>
-							<code>toggler</code>:<br />
-							Controls what element should work as toggler(s) for the expollapsible:
+							<li><code>toggler</code>:<br />
+								<span>Controls what element should work as toggler(s) for the expollapsible:</span>
 								<ul>
 									<li><code>'header'</code> :<br />
-									Default setting. The header element will be made clickable and will be the toggler.</li>
+										<span>Default setting. The header element will be made clickable and will be the toggler.</span></li>
 									<li><code>'headerLinks'</code> :<br />
-									All anchor tags inside the header will be togglers.
-									</li>
+										<span>All anchor tags inside the header will be togglers.</span></li>
 									<li><code>jQuery expression</code> :<br />
-									The supplied jQuery expression (evaluated in the context of the header) will determine the toggler(s)
-									</li>
+										<span>The supplied jQuery expression (evaluated in the context of the header) will
+											determine the toggler(s)</span></li>
 									<li><code>function (headerElement)</code> :<br />
-									A custom function that is given the expollapser's header element as a jQuery object and should return a
-									jQuery object containing all togglers for the expollapser.</li>
+										<span>A custom function that is given the expollapser's header element as a jQuery
+											object and should return a jQuery object containing all togglers for the expollapser.</span></li>
+								</ul>
+							</li>
+							<li><code>contenElement</code>:<br />
+								<span>Tells how to identify the content element:</span>
+								<ul>
+									<li><code>'next'</code> :<br />
+										<span>Default setting. The content element will be found by getting the next sibling
+											to the header DOM element.</span></li>
+									<li><code>'prev'</code> :<br />
+										<span>The content element will be found by getting the previous sibling to the header
+											DOM element.</span></li>
+									<li><code>jQuery expression</code> :<br />
+										<span>The supplied jQuery expression will determine the content element.</span></li>
+									<li><code>function (headerElement)</code> :<br />
+										<span>A custom function that is given the header element and should return a jQuery
+											object representing the content element.</span></li>
 								</ul>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<p>
-	contentElement: Tells how to identify the content element.
-		'next' : Default setting. The content element will be found by getting the next sibling to the header DOM element.
-		'prev' : The content element will be found by getting the previous sibling to the header DOM element.
-		jQuery expression : The supplied jQuery expression will determine the content element.
-		function (headerElement) : A custom function that is given the header element and should return a jQuery object
-															 representing the content element.
-	expandHeaderCss: CSS class(es) to apply to the header when the expollapser is expanded.
-
-
-expandContentCss : CSS class(es) to apply on the header when the expollapser is expanded.
-
-Syntax for all css settings:
-You can use 'classname' which will automatically apply the class on expand and remove the class on collapse. Or you
-can use '+classname' to dictate that the class should be added on expand, but not removed. Or you can use '-classname'
-the dictate that the class should be removed on expand.
-
-
+					expandHeaderCss: CSS class(es) to apply to the header when the expollapser is expanded.
+					expandContentCss : CSS class(es) to apply on the header when the expollapser is
+					expanded. Syntax for all css settings: You can use 'classname' which will automatically
+					apply the class on expand and remove the class on collapse. Or you can use '+classname'
+					to dictate that the class should be added on expand, but not removed. Or you can
+					use '-classname' the dictate that the class should be removed on expand.
 				</p>
 			</div>
 			<!-- content-wrap ends here -->

@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title>Techmania</title>
+	<title>Expollapser jQuery plugin - documentation</title>
 	<meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
 	<meta name="author" content="Peter Ravnholt - Codevelop" />
 	<meta name="description" content="Expollapser jQuery plugin homepage" />
@@ -34,6 +34,71 @@
 				<h1>
 					Documentation</h1>
 				<p>
+				Expollapser needs a header element and a content element to work. The plugin needs to be attached
+				to the header element. The simplest way to use expollapser is like this:<br />
+				<br />
+				<code>$('#myElementId').expollapser();</code><br />
+				<br />
+				</p>
+				<p>
+				The content element will be the next sibling element in the DOM, or you can explicitly specify the content
+				element using the <a href="#contentElement"><code>contentElement</code></a> setting.<br />
+				<br />
+				Finally, there needs to be an element that works as a toggler, ie. when this element is clicked, the content
+				element will be switched between expanded and collapsed state. If nothing else is specified, the header will
+				be made the toggler.
+				</p>
+				<p>
+				Expollapser can be used with the following parameters:
+				</p>
+				<ul>
+					<li><code>init</code>:<br />
+					Use this method to initialize the expollapser. This is the default if no parameters are specified.<br />
+					Example: <br />
+					<br />
+					<code>$('#myElementId').expollapser('init', {<br />
+					&nbsp;&nbsp;contentElement : 'next',<br />
+					&nbsp;&nbsp;toggler : 'headerLinks'<br />
+					});</code><br />
+						<ul>
+							<li>
+							<code>toggler</code>:<br />
+							Controls what element should work as toggler(s) for the expollapsible:
+								<ul>
+									<li><code>'header'</code> :<br />
+									Default setting. The header element will be made clickable and will be the toggler.</li>
+									<li><code>'headerLinks'</code> :<br />
+									All anchor tags inside the header will be togglers.
+									</li>
+									<li><code>jQuery expression</code> :<br />
+									The supplied jQuery expression (evaluated in the context of the header) will determine the toggler(s)
+									</li>
+									<li><code>function (headerElement)</code> :<br />
+									A custom function that is given the expollapser's header element as a jQuery object and should return a
+									jQuery object containing all togglers for the expollapser.</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<p>
+	contentElement: Tells how to identify the content element.
+		'next' : Default setting. The content element will be found by getting the next sibling to the header DOM element.
+		'prev' : The content element will be found by getting the previous sibling to the header DOM element.
+		jQuery expression : The supplied jQuery expression will determine the content element.
+		function (headerElement) : A custom function that is given the header element and should return a jQuery object
+															 representing the content element.
+	expandHeaderCss: CSS class(es) to apply to the header when the expollapser is expanded.
+
+
+expandContentCss : CSS class(es) to apply on the header when the expollapser is expanded.
+
+Syntax for all css settings:
+You can use 'classname' which will automatically apply the class on expand and remove the class on collapse. Or you
+can use '+classname' to dictate that the class should be added on expand, but not removed. Or you can use '-classname'
+the dictate that the class should be removed on expand.
+
+
 				</p>
 			</div>
 			<!-- content-wrap ends here -->

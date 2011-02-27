@@ -68,7 +68,7 @@ ul span, ol span, ul code {
 }
 
 /* images */
-img {
+.image {
 	background: #FAFAFA;
     border: 1px solid #DCDCDC;
 	padding: 8px;

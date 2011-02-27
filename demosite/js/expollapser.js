@@ -1,5 +1,5 @@
 /*
-Expollapser version 0.8.1212
+Expollapser version 0.8.0
 
 init: Use this method to initialize the expollapser.
 	toggler: Controls what element should work as toggler(s) for the expollapsible.
@@ -14,7 +14,12 @@ init: Use this method to initialize the expollapser.
 		jQuery expression : The supplied jQuery expression will determine the content element.
 		function (headerElement) : A custom function that is given the header element and should return a jQuery object
 															 representing the content element.
+	expandHeaderCss: CSS class(es) to apply to the header when the expollapser is expanded.
+
+
 expandContentCss : CSS class(es) to apply on the header when the expollapser is expanded.
+
+Syntax for all css settings:
 You can use 'classname' which will automatically apply the class on expand and remove the class on collapse. Or you
 can use '+classname' to dictate that the class should be added on expand, but not removed. Or you can use '-classname'
 the dictate that the class should be removed on expand.
@@ -71,7 +76,7 @@ function expollapser_setDefaults(options) {
 
 					// Process the settings, basically by converting all convenience string settings
 					// to underlying functions.
-					settings.toggler = processTogglers(settings.toggler);
+					settings.toggler = processTogglers(settings.toggler, $this);
 					settings.contentElement = processContentElement(settings.contentElement);
 					processCssSetting(settings, 'expandHeaderCss', 'collapseHeaderCss');
 					processCssSetting(settings, 'expandContentCss', 'collapseContentCss');
@@ -144,7 +149,7 @@ function expollapser_setDefaults(options) {
 				var settings = $this.data('expollapser').settings;
 				if (data.isopen == false && data.disabled == false) {
 					if (toggler == null)
-						toggler = settings.toggler.get(0);
+						toggler = $(settings.toggler($this).get(0));
 					var contentElement = settings.contentElement($this);
 					settings.preExpand($this, contentElement, toggler);
 					applyCss(settings.expandHeaderCss, $this);
@@ -258,11 +263,11 @@ function expollapser_setDefaults(options) {
 	}
 
 	// Parse for convenience settings in togglers
-	function processTogglers(togglersSetting) {
+	function processTogglers(togglersSetting, element) {
 		assertStringOrFunction(togglersSetting, 'togglers');
 		if (typeof togglersSetting === 'string') {
 			if (togglersSetting == 'header') {
-				togglersSetting = function(headerElement) { return headerElement; };
+				togglersSetting = function(headerElement) { return element; };
 			}
 			else if (togglersSetting == 'headerLinks') {
 				togglersSetting = function(headerElement) { return $('a', headerElement); };
@@ -292,7 +297,24 @@ function expollapser_setDefaults(options) {
 		assertStringOrFunction(setting, 'headerChangeHtml', true);
 		if (typeof setting === 'string') {
 			var html = setting;
-			setting = function(header) { header.html(html); };
+            if (html.indexOf('--->') > -1) {
+                var replaceFunctions = [];
+                var idx = 0;
+                var replaceExpressions = html.split(',');
+                for (var item in replaceExpressions) {
+                    var pair = replaceExpressions[item].split('--->');
+                    replaceFunctions[idx++] = function(input) {
+                        return input.replace(pair[0], pair[1]);
+                    };
+                }
+                setting = function(toggler) {
+                    for (var i=0; i < replaceFunctions.length; i++)
+                        toggler.html(replaceFunctions[0](toggler.html()));
+                };
+            }
+            else {
+			    setting = function(header) { header.html(html); }
+            }
 		}
 
 		return setting;
@@ -301,7 +323,7 @@ function expollapser_setDefaults(options) {
 	function processTogglerChangeHtml(setting) {
 		assertStringOrFunction(setting, 'togglerChangeHtml', true);
 		if (typeof setting === 'string') {
-			var html = setting;
+            var html = setting;
 			setting = function(toggler) { toggler.html(html); };
 		}
 
@@ -361,7 +383,7 @@ function expollapser_setDefaults(options) {
 	}
 
 	function getUniqueId(elem1, elem2, elem3) {
-		return elem1.attr($.expando) + elem2.attr($.expando) + elem3.attr($.expando);
+		return $(elem1).attr($.expando) + $(elem2).attr($.expando) + $(elem3).attr($.expando);
 	}
 
 	// Applies the supplied css setting to the supplied element.

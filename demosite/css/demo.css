@@ -23,7 +23,14 @@ h2
 }
 .demoSection .functionalSection > div
 {
-	padding: 8px;
+	padding: 4px;
+	width: 350px;
+	background-color: #E0FFE0;
+}
+.demoSection .functionalSection > div:first-child
+{
+    font-weight: bold;
+    background-color: #E0E0FF;
 }
 .expandedPart
 {

@@ -297,7 +297,24 @@ function expollapser_setDefaults(options) {
 		assertStringOrFunction(setting, 'headerChangeHtml', true);
 		if (typeof setting === 'string') {
 			var html = setting;
-			setting = function(header) { header.html(html); };
+            if (html.indexOf('--->') > -1) {
+                var replaceFunctions = [];
+                var idx = 0;
+                var replaceExpressions = html.split(',');
+                for (var item in replaceExpressions) {
+                    var pair = replaceExpressions[item].split('--->');
+                    replaceFunctions[idx++] = function(input) {
+                        return input.replace(pair[0], pair[1]);
+                    };
+                }
+                setting = function(toggler) {
+                    for (var i=0; i < replaceFunctions.length; i++)
+                        toggler.html(replaceFunctions[0](toggler.html()));
+                };
+            }
+            else {
+			    setting = function(header) { header.html(html); }
+            }
 		}
 
 		return setting;
@@ -306,7 +323,7 @@ function expollapser_setDefaults(options) {
 	function processTogglerChangeHtml(setting) {
 		assertStringOrFunction(setting, 'togglerChangeHtml', true);
 		if (typeof setting === 'string') {
-			var html = setting;
+            var html = setting;
 			setting = function(toggler) { toggler.html(html); };
 		}
 

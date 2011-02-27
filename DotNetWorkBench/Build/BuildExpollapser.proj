@@ -30,11 +30,10 @@
 		<Copy SourceFiles="@(StagingFilesTests)" DestinationFiles="@(StagingFilesTests -> '$(StagingPath)\tests\%(RecursiveDir)%(Filename)%(Extension)')" />
 	</Target>
 	
-<!--
 	<Target Name="RunSeleniumTests" DependsOnTargets="DeployToStaging">
 		<Exec Command="&quot;$(MSBuildProjectDirectory)\..\packages\NUnit.2.5.7.10213\Tools\nunit-console-x86.exe&quot; &quot;$(MSBuildProjectDirectory)\..\Tests\UnitTests\bin\$(Configuration)\UnitTests.dll&quot;" />
 	</Target>
--->	
+
 	<Target Name="Build" DependsOnTargets="DeployToStaging">
 		
 	</Target>

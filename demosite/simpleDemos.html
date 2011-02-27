@@ -61,7 +61,7 @@
 						</ul>
 						<div id="functional1" class="functionalSection">
 							<div id="simpleDemo1" style="background-color: #E0E0FF;">
-								Click this heading to toggle
+								Previous orders:
 							</div>
 							<div style="display: none; background-color: #E0FFE0;">
 								Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -91,15 +91,17 @@
 							<li><a href="#complete2"><span>Html Source</span></a></li>
 						</ul>
 						<div id="functional2" class="functionalSection">
-							<div id="togglingHeaderDemo1" style="background-color: #E0E0FF;">
-								Show more...
+							<div id="togglingHeaderDemo1">
+								<div style="float:left;">Customer details</div><div style="float:right;"><img src="images/arrowClosed.png" /></div>
+                                <br style="clear:both;"/>
 							</div>
-							<div style="display: none; background-color: #E0FFE0;">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							<div style="display: none">
+								Name: Smith<br />
+                                Haircolor: Blue
 							</div>
 							<script language="javascript" type="text/javascript">
 								$('#togglingHeaderDemo1').expollapser({
-									'headerChangeHtml': 'Show less...'
+								    'headerChangeHtml': 'arrowClosed--->arrowOpen'
 								});
 							</script>
 						</div>

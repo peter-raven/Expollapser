@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>Expollapser advanceddemos</title>
+	<meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+	<meta name="author" content="Peter Ravnholt - Codevelop" />
+	<meta name="description" content="Expollapser jQuery plugin homepage" />
+	<meta name="keywords" content="expand collapse jquery javascript" />
+	<meta name="robots" content="index, follow, noarchive" />
+	<meta name="googlebot" content="noarchive" />
+	<link rel="stylesheet" type="text/css" media="screen" href="css/Techmania.css" />
+	<link rel="Stylesheet" type="text/css" href="css/demo.css" />
+	<link href="css/shCore.css" rel="stylesheet" type="text/css" />
+	<link href="css/shThemeDefault.css" rel="stylesheet" type="text/css" />
+	<link href="css/jquery-ui-1.8.9.custom.css" rel="Stylesheet" type="text/css" />
+	<script src="js/jquery-1.4.1.js" type="text/javascript"></script>
+	<script src="js/jquery-ui-1.8.9.custom.min.js" type="text/javascript"></script>
+	<script src="js/expollapser.js" type="text/javascript"></script>
+	<script type="text/javascript" src="js/shCore.js"></script>
+	<script type="text/javascript" src="js/shBrushJScript.js"></script>
+	<script type="text/javascript" src="js/shBrushXml.js"></script>
+	<script type="text/javascript" src="js/beautify.js"></script>
+	<script type="text/javascript" src="js/beautify-html.js"></script>
+	<script type="text/javascript" src="js/demoFormatting.js"></script>
+</head>
+<body>
+	<!-- wrap starts here -->
+	<div id="wrap">
+		<div id="header">
+			<h1 id="logo-text">
+				Expollapser</h1>
+			<h2 id="slogan">
+				An expand / collapse jQuery plugin</h2>
+			<div id="header-tabs">
+				<ul>
+					<li><a href="index.html"><span>Home</span></a></li>
+					<li id="current"><a href="advancedDemos.html"><span>Demos</span></a></li>
+					<li><a href="download.html"><span>Download</span></a></li>
+					<li><a href="docs.html"><span>Documentation</span></a></li>
+					<li><a href="about.html"><span>About</span></a></li>
+				</ul>
+			</div>
+		</div>
+		<!-- content-wrap starts here -->
+		<div id="content-wrap">
+			<div id="main">
+				<!-- Simple expander -->
+				<div class="demoSection">
+					<h2>
+						WCAG compliance</h2>
+					<p>
+						In expollapser's default setting, the header will be made clickable and will thereby
+						work as the toggler. In some cases (for instance to follow WCAG guidelines, keyboard
+						navigation, etc), you may want only real (a href) links inside the header to work
+						as togglers. Use the <code>toggler</code> setting <code>headerLinks</code> for this.
+					</p>
+					<div class="tabular">
+						<ul>
+							<li><a href="#functional3"><span>Demo</span></a></li>
+							<li><a href="#code3"><span>Javascript Source</span></a></li>
+							<li><a href="#complete3"><span>Html Source</span></a></li>
+						</ul>
+						<div id="functional3" class="functionalSection">
+							<div id="togglerHeaderLinksDemo" style="background-color: #E0E0FF;">
+								<a href="#">Product details</a>
+							</div>
+							<div style="display: none; background-color: #E0FFE0;">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							</div>
+							<script language="javascript" type="text/javascript">
+								$('#togglerHeaderLinksDemo').expollapser({
+									'toggler': 'headerLinks'
+								});
+							</script>
+						</div>
+						<div id="code3" class="codeSection">
+						</div>
+						<div id="complete3" class="completeCodeSection">
+						</div>
+					</div>
+				</div>
+				<div class="demoSection" style="display: none">
+					<h2>
+					</h2>
+					<p>
+					</p>
+					<div class="tabular">
+						<ul>
+							<li><a href="#functionalx"><span>Demo</span></a></li>
+							<li><a href="#codex"><span>Javascript Source</span></a></li>
+							<li><a href="#completex"><span>Html Source</span></a></li>
+						</ul>
+						<div id="functionalx" class="functionalSection">
+							<script></script>
+						</div>
+						<div id="codex" class="codeSection">
+						</div>
+						<div id="completex" class="completeCodeSection">
+						</div>
+					</div>
+				</div>
+				<p>
+					&nbsp;</p>
+			</div>
+			<div id="sidebar">
+				<h2>
+					Demos</h2>
+				<ul class="sidemenu">
+					<li><a href="simpleDemos.html">Simple</a></li>
+					<li><a href="advancedDemos.html" class="selected">Advanced</a></li>
+				</ul>
+			</div>
+			<!-- content-wrap ends here -->
+		</div>
+		<div id="footer">
+			<p id="footer-left">
+				&copy; 2011 Codevelop | Website Template by <a href="http://www.styleshout.com/">styleshout</a>
+			</p>
+			<p id="footer-right">
+			</p>
+		</div>
+		<!-- wrap ends here -->
+	</div>
+	<script language="javascript" type="text/javascript">
+		$(document).ready(function () {
+
+			$('.tabular').tabs();
+
+			$('div.completeCodeSection').each(function () {
+				$(this).html('<pre class=\"brush: xml\">' + fixAndFormat($(this).siblings('.functionalSection').html()) + '</pre>');
+			});
+
+			$('div.codeSection').each(function () {
+				$(this).html('<pre class=\"brush: js\">' + fixAndFormat($(this).siblings('.functionalSection').children('script').html()) + '</pre>');
+			});
+
+			SyntaxHighlighter.all();
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+
+*.user
+*.suo
+*.pdb
+*.cache
+obj/
+[Bb]in

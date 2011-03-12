@@ -64,6 +64,9 @@
     <Content Include="..\..\..\demosite\about.html">
       <Link>Demosite\about.html</Link>
     </Content>
+    <Content Include="..\..\..\demosite\advancedDemos.html">
+      <Link>Demosite\advancedDemos.html</Link>
+    </Content>
     <Content Include="..\..\..\demosite\css\demo.css">
       <Link>Demosite\css\demo.css</Link>
     </Content>

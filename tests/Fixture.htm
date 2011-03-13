@@ -88,7 +88,7 @@
 
 	        test('Open setting to true will affect open state', function () {
 	            var $header = $('#header12');
-	            $header.expollapser({ 'open' : true });
+	            $header.expollapser({ 'open': true });
 	            equals($header.data('expollapser').isopen, true);
 	        });
 
@@ -102,7 +102,7 @@
 
 	        test('expandHeaderCss will apply css to header on init with open state', function () {
 	            var $header = $('#header13');
-	            $header.expollapser({ expandHeaderCss: 'myHeaderCss', 'open' : true });
+	            $header.expollapser({ expandHeaderCss: 'myHeaderCss', 'open': true });
 	            ok($header.hasClass('myHeaderCss'));
 	        });
 
@@ -116,7 +116,7 @@
 
 	        test('expandHeaderCss will remove added css from header on collapse', function () {
 	            var $header = $('#header8');
-	            $header.expollapser({ expandHeaderCss: 'myHeaderCss' });
+	            $header.expollapser({ expandHeaderCss: 'myHeaderCss', collapseAnimator: function (header, content, toggler, callback) { $(content).show(); callback(); } });
 	            $header.expollapser('expand');
 	            $header.expollapser('collapse');
 	            ok(!$header.hasClass('myHeaderCss'));
@@ -126,7 +126,7 @@
 
 	        test('collapseHeaderCss will not affect header css on init with open state', function () {
 	            var $header = $('#header6b');
-	            $header.expollapser({ collapseHeaderCss: 'myHeaderCss', 'open' : true });
+	            $header.expollapser({ collapseHeaderCss: 'myHeaderCss', 'open': true });
 	            ok(!$header.hasClass('myHeaderCss'));
 	        });
 
@@ -138,7 +138,7 @@
 
 	        test('collapseHeaderCss will apply css to header on collapse', function () {
 	            var $header = $('#header7b');
-	            $header.expollapser({ collapseHeaderCss: 'myHeaderCss' });
+	            $header.expollapser({ collapseHeaderCss: 'myHeaderCss', collapseAnimator: function (header, content, toggler, callback) { $(content).show(); callback(); } });
 	            $header.expollapser('expand');
 	            $header.expollapser('collapse');
 

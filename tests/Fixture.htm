@@ -22,20 +22,20 @@
 	        test('Default init sets toggler to the header', function () {
 	            var $header = $('#header1');
 	            $header.expollapser();
-	            equals($header.data('expollapser').settings.toggler($header).get(0), $header.get(0), 'Toggler should default to the header (header supplied as parameter)');
+	            equals($header.data('expollapser').getTogglers($header).get(0), $header.get(0), 'Toggler should default to the header (header supplied as parameter)');
 	        });
 
 	        test('Toggler setting \'headerLinks\' will select all links in header', function () {
 	            var $header = $('#header2');
 	            $header.expollapser({ toggler: 'headerLinks' });
-	            equals($header.data('expollapser').settings.toggler($header).get(0), $header.find('#link1, #link2').get(0), 'Toggler should select anchor tags in header');
-	            equals($header.data('expollapser').settings.toggler($header).get(1), $header.find('#link1, #link2').get(1), 'Toggler should select anchor tags in header');
+	            equals($header.data('expollapser').getTogglers($header).get(0), $header.find('#link1, #link2').get(0), 'Toggler should select anchor tags in header');
+	            equals($header.data('expollapser').getTogglers($header).get(1), $header.find('#link1, #link2').get(1), 'Toggler should select anchor tags in header');
 	        });
 
 	        test('Toggler setting with jQuery expression will select inside header', function () {
 	            var $header = $('#header3');
 	            $header.expollapser({ toggler: 'span img.selector1' });
-	            equals($header.data('expollapser').settings.toggler($header).get(0), $header.find('#image1').get(0), 'Toggler (jQuery) should select image tag in header');
+	            equals($header.data('expollapser').getTogglers($header).get(0), $header.find('#image1').get(0), 'Toggler (jQuery) should select image tag in header');
 	        });
 
 	        test('Toggler setting with function will select using function', function () {

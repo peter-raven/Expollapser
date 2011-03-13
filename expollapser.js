@@ -52,7 +52,6 @@ function expollapser_setDefaults(options) {
 
                     // Process the settings, basically by converting all convenience string settings
                     // to underlying functions.
-                    settings.toggler = processTogglers(settings.toggler);
                     settings.contentElement = processContentElement(settings.contentElement);
                     processCssSetting(settings, 'expandHeaderCss', 'collapseHeaderCss');
                     processCssSetting(settings, 'expandContentCss', 'collapseContentCss');
@@ -71,6 +70,7 @@ function expollapser_setDefaults(options) {
                     $(this).data('expollapser', {
                         isopen: settings.open,
                         initialOpen: settings.open,
+                        getTogglers: resolveTogglers(settings.toggler, $this),
                         contentLoaded: false,
                         hookedUp: false,
                         disabled: false,
@@ -78,7 +78,7 @@ function expollapser_setDefaults(options) {
                     });
 
                     // Setup togglers
-                    ensureToggleHookup(settings.toggler, $(this));
+                    ensureToggleHookup($(this).data('expollapser').getTogglers, $(this));
                 }
             });
         },
@@ -87,7 +87,7 @@ function expollapser_setDefaults(options) {
         disable: function () {
             return this.each(function () {
                 $(this).data('expollapser')['disabled'] = true;
-                $(this).data('expollapser').settings.toggler($(this)).css('cursor', 'auto');
+                $(this).data('expollapser').getTogglers($(this)).css('cursor', 'auto');
             })
         },
 
@@ -95,7 +95,7 @@ function expollapser_setDefaults(options) {
         enable: function () {
             return this.each(function () {
                 $(this).data('expollapser')['disabled'] = false;
-                $(this).data('expollapser').settings.toggler($(this)).css('cursor', 'hand');
+                $(this).data('expollapser').getTogglers($(this)).css('cursor', 'hand');
             })
         },
 
@@ -131,7 +131,7 @@ function expollapser_setDefaults(options) {
                 var settings = $this.data('expollapser').settings;
                 if (data.isopen == false && data.disabled == false) {
                     if (toggler == null)
-                        toggler = $(settings.toggler($this).get(0));
+                        toggler = $(data.getTogglers($this).get(0));
                     var contentElement = settings.contentElement($this);
                     settings.preExpand($this, contentElement, toggler);
                     applyCss(settings.expandHeaderCss, $this);
@@ -146,7 +146,7 @@ function expollapser_setDefaults(options) {
                     if (settings.headerExpandHtml) {
                         data.headerOldHtml = $this.html();
                         settings.headerExpandHtml($this);
-                        ensureToggleHookup(settings.toggler, $this, settings.contentHtml);
+                        ensureToggleHookup(data.getTogglers, $this, settings.contentHtml);
                     }
 
                     // Set content and do expand animation
@@ -189,7 +189,7 @@ function expollapser_setDefaults(options) {
                     if (data.headerOldHtml && data.headerOldHtml.length > 0) {
                         $this.html(data.headerOldHtml);
                         data.headerOldHtml = null;
-                        ensureToggleHookup(settings.toggler, $this, settings.contentHtml);
+                        ensureToggleHookup(data.getTogglers, $this, settings.contentHtml);
                     }
 
                     data.isopen = false;
@@ -204,9 +204,9 @@ function expollapser_setDefaults(options) {
     };
 
     // Ensures that the supplied togglers function on the supplied header element is setup with click events
-    function ensureToggleHookup(togglers, headerElement) {
-        togglers(headerElement).each(function () {
-            // Set up click events of togglers if they have no click event already
+    function ensureToggleHookup(togglersFn, headerElement) {
+        togglersFn(headerElement).each(function () {
+            // Set up click events of togglersFn if they have no click event already
             if (!$.data(this, 'events') || !$.data(this, 'events')['click'] || $.data(this, 'events')['click'].length == 0) {
                 $(this).css('cursor', 'hand');
                 if (!$(this).data('expollapser'))
@@ -245,18 +245,19 @@ function expollapser_setDefaults(options) {
     }
 
     // Parse for convenience settings in togglers
-    function processTogglers(togglersSetting) {
+    function resolveTogglers(togglersSetting, $header) {
         assertStringOrFunction(togglersSetting, 'togglers');
+        var togglersFunction;
         if (typeof togglersSetting === 'string') {
             if (togglersSetting == 'header') {
-                togglersSetting = function (headerElement) { return headerElement; };
+                return function () { return $header; };
             }
             else if (togglersSetting == 'headerLinks') {
-                togglersSetting = function (headerElement) { return $('a', headerElement); };
+                return function () { return $('a', $header); };
             }
             else {
-                stringSetting = togglersSetting;
-                togglersSetting = function (headerElement) { return $(stringSetting, headerElement); };
+                var stringSetting = togglersSetting;
+                return function () { return $(stringSetting, $header); };
             }
         }
 
@@ -346,7 +347,7 @@ function expollapser_setDefaults(options) {
             var id = getUniqueId(header, content, toggler);
             if (header.data('expollapser').contentLoaded != id) {
                 processedSetting(header, content, toggler, function () {
-                    ensureToggleHookup(header.data('expollapser').settings.toggler, header);
+                    ensureToggleHookup(header.data('expollapser').getTogglers, header);
                     header.data('expollapser').settings.postContentLoad(header, content, toggler);
                     callback();
                 });

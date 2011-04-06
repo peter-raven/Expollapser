@@ -61,6 +61,10 @@ function expollapser_setDefaults(options) {
                         settings.headerReplaceHtml(header);
                     });
 
+                    settings.preCollapse = insertFn(settings.preCollapse, function(header, content, toggler) {
+                        settings.headerReplaceHtml(header);
+                    });
+
                     settings.postCollapse = insertFn(settings.postCollapse, function(header, content, toggler) {
                         ensureClassRemoved(header, settings.expandHeaderCss);
                         ensureClass(header, settings.collapseHeaderCss);
@@ -182,6 +186,8 @@ function expollapser_setDefaults(options) {
                 if (data.isopen == true && data.disabled == false) {
                     if (toggler == null)
                         toggler = data.expandedBy;
+                    if (toggler == null)
+                        toggler = $this;
                     var contentElement = settings.contentElement($this);
                     settings.preCollapse($this, contentElement, toggler);
                     if (toggler.data('expollapser').oldHtml) {
@@ -293,7 +299,7 @@ function expollapser_setDefaults(options) {
                 return function (header) {
                     for (var item in replaceExpressions) {
                         var pair = replaceExpressions[item].split('<-->');
-                        if (header.isopen) {
+                        if (header.data('expollapser').isopen == true) {
                             header.html(header.html().replace(pair[1], pair[0]));
                         }
                         else {

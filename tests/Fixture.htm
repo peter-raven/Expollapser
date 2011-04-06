@@ -187,7 +187,20 @@
 	            equals($header.html(), 'This is after expand');
 	        });
 
-	        test('Replace expression will replace part of header html on collapse');
+	        test('Replace expression will replace part of header html on collapse', function () {
+                var $header = $('#header17');
+	            $header.expollapser({ open: true, headerReplaceHtml: 'before<-->after' });
+	            $header.expollapser('collapse');
+	            equals($header.html(), 'This is before expand');
+	        });
+
+	        test('Replace expression will replace part of header html on expand and replace back on collapse', function () {
+	            var $header = $('#header16');
+	            $header.expollapser({ headerReplaceHtml: 'before<-->after' });
+	            $header.expollapser('expand');
+	            $header.expollapser('collapse');
+	            equals($header.html(), 'This is before expand');
+	        });
 
 	        test('Replace expression will replace on init with state closed');
 
@@ -234,6 +247,11 @@
         <div id="header13"></div>
         <div id="header14"></div>
         <div id="header15">This is before expand</div>
+        <div></div>
+        <div id="header16">This is before expand</div>
+        <div></div>
+        <div id="header17">This is after expand</div>
+        <div></div>
 	</div>
 </body>
 </html>

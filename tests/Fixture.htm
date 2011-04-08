@@ -92,6 +92,8 @@
 	            equals($header.data('expollapser').isopen, true);
 	        });
 
+            // TODO: Should hide/show content part.
+
 	        module('ExpandHeaderCss');
 
 	        test('expandHeaderCss will not affect header css on init with closed state', function () {
@@ -188,23 +190,31 @@
 	        });
 
 	        test('Replace expression will replace part of header html on collapse', function () {
-                var $header = $('#header17');
-	            $header.expollapser({ open: true, headerReplaceHtml: 'before<-->after' });
+	            var $header = $('#header17');
+	            $header.expollapser({ open: true, headerReplaceHtml: 'before<-->after', collapseAnimator: function (header, content, toggler, callback) { $(content).show(); callback(); } });
 	            $header.expollapser('collapse');
 	            equals($header.html(), 'This is before expand');
 	        });
 
 	        test('Replace expression will replace part of header html on expand and replace back on collapse', function () {
 	            var $header = $('#header16');
-	            $header.expollapser({ headerReplaceHtml: 'before<-->after' });
+	            $header.expollapser({ headerReplaceHtml: 'before<-->after', collapseAnimator: function (header, content, toggler, callback) { $(content).show(); callback(); } });
 	            $header.expollapser('expand');
 	            $header.expollapser('collapse');
 	            equals($header.html(), 'This is before expand');
 	        });
 
-	        test('Replace expression will replace on init with state closed');
+	        test('Replace expression will replace on init with state closed', function () {
+	            var $header = $('#header18');
+	            $header.expollapser({ open: false, headerReplaceHtml: 'before<-->after' });
+	            equals($header.html(), 'This is before expand');
+	        });
 
-	        test('Replace expression will replace on init with state open');
+	        test('Replace expression will replace on init with state open', function () {
+	            var $header = $('#header19');
+	            $header.expollapser({ open: true, headerReplaceHtml: 'before<-->after' });
+	            equals($header.html(), 'This is after expand');
+	        });
 	    });				
 	
 	</script>
@@ -251,6 +261,10 @@
         <div id="header16">This is before expand</div>
         <div></div>
         <div id="header17">This is after expand</div>
+        <div></div>
+        <div id="header18">This is after expand</div>
+        <div></div>
+        <div id="header19">This is before expand</div>
         <div></div>
 	</div>
 </body>

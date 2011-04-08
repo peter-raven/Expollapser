@@ -58,30 +58,21 @@ function expollapser_setDefaults(options) {
                     settings.preExpand = insertFn(settings.preExpand, function(header, content, toggler) {
                         ensureClass(header, settings.expandHeaderCss);
                         ensureClassRemoved(header, settings.collapseHeaderCss);
-                        settings.headerReplaceHtml(header);
                     });
 
-                    settings.preCollapse = insertFn(settings.preCollapse, function(header, content, toggler) {
+                    settings.postExpand = insertFn(settings.postExpand, function(header, content, toggler) {
                         settings.headerReplaceHtml(header);
                     });
 
                     settings.postCollapse = insertFn(settings.postCollapse, function(header, content, toggler) {
                         ensureClassRemoved(header, settings.expandHeaderCss);
                         ensureClass(header, settings.collapseHeaderCss);
+                        settings.headerReplaceHtml(header);
                     });
 
                     settings.headerExpandHtml = processHeaderExpandHtml(settings.headerExpandHtml);
                     settings.togglerChangeHtml = processTogglerChangeHtml(settings.togglerChangeHtml);
                     settings.contentHtml = processContentHtml(settings.contentHtml, settings);
-
-                    if (settings.open) {
-                        if (!$(this).hasClass(settings.expandHeaderCss))
-                            $(this).addClass(settings.expandHeaderCss);
-                    }
-                    else {
-                        if (!$(this).hasClass(settings.collapseHeaderCss))
-                            $(this).addClass(settings.collapseHeaderCss);
-                    }
 
                     // Setup data
                     $(this).data('expollapser', {
@@ -91,6 +82,19 @@ function expollapser_setDefaults(options) {
                         disabled: false,
                         settings: settings
                     });
+
+                    if (settings.open) {
+                        ensureClass($(this), settings.expandHeaderCss);
+                        settings.headerReplaceHtml($(this));
+                        //if (!$(this).hasClass(settings.expandHeaderCss))
+                        //    $(this).addClass(settings.expandHeaderCss);
+                    }
+                    else {
+                        ensureClass($(this), settings.collapseHeaderCss);
+                        settings.headerReplaceHtml($(this));
+                        //if (!$(this).hasClass(settings.collapseHeaderCss))
+                        //    $(this).addClass(settings.collapseHeaderCss);
+                    }                    
 
                     // Setup togglers
                     ensureToggleHookup($(this).data('expollapser').getTogglers, $(this));
@@ -300,10 +304,10 @@ function expollapser_setDefaults(options) {
                     for (var item in replaceExpressions) {
                         var pair = replaceExpressions[item].split('<-->');
                         if (header.data('expollapser').isopen == true) {
-                            header.html(header.html().replace(pair[1], pair[0]));
+                            header.html(header.html().replace(pair[0], pair[1]));
                         }
                         else {
-                            header.html(header.html().replace(pair[0], pair[1]));
+                            header.html(header.html().replace(pair[1], pair[0]));
                         }
                     }
                 };

@@ -2,35 +2,33 @@
 Expollapser version 0.11.0
 */
 
-var expollapser_defaults = {
-    'toggler': 'header',
-    'contentElement': 'next',
-    'expandHeaderCss': null,
-    'expandContentCss': null,
-    'collapseHeaderCss': null,
-    'collapseContentCss': null,
-    'headerExpandHtml': null,
-    'headerReplaceHtml': '',
-    'open': false,
-    'contentHtml': '',
-    'expandAnimator': function (header, content, toggler, callback) { $(content).slideDown(200, callback); },
-    'collapseAnimator': function (header, content, toggler, callback) { $(content).slideUp(200, callback); },
-    'preExpand': function (header, content, toggler) { },
-    'postExpand': function (header, content, toggler) { },
-    'preCollapse': function (header, content, toggler) { },
-    'postCollapse': function (header, content, toggler) { },
-    'autoHookupChildrenOn': '',
-    'postContentLoad': function (header, content, toggler) { },
-    'togglerSeparation': false
-};
-
-function expollapser_setDefaults(options) {
-    if (options) {
-        $.extend(expollapser_defaults, options);
-    }
-}
-
 (function ($) {
+
+    // Defaults
+    var expollapser_defaults = {
+        'toggler': 'header',
+        'contentElement': 'next',
+        'expandHeaderCss': null,
+        'expandContentCss': null,
+        'collapseHeaderCss': null,
+        'collapseContentCss': null,
+        'headerReplaceHtml': '',
+        'open': false,
+        'contentHtml': '',
+        'expandAnimator': function (header, content, toggler, callback) { $(content).slideDown(200, callback); },
+        'collapseAnimator': function (header, content, toggler, callback) { $(content).slideUp(200, callback); },
+        'preExpand': function (header, content, toggler) { },
+        'postExpand': function (header, content, toggler) { },
+        'preCollapse': function (header, content, toggler) { },
+        'postCollapse': function (header, content, toggler) { },
+        'togglerSeparation': false
+    };
+
+    function expollapser_setDefaults(options) {
+        if (options) {
+            $.extend(expollapser_defaults, options);
+        }
+    }
 
     // Define methods of the expollapser plugin
     var methods = {
@@ -325,7 +323,6 @@ function expollapser_setDefaults(options) {
             if (header.data('expollapser').contentLoaded != id) {
                 processedSetting(header, content, toggler, function () {
                     ensureToggleHookup(header.data('expollapser').getTogglers, header);
-                    header.data('expollapser').settings.postContentLoad(header, content, toggler);
                     callback();
                 });
             }
@@ -354,23 +351,24 @@ function expollapser_setDefaults(options) {
             $.error('Method ' + method + ' does not exist on jQuery.expollapser');
         }
     };
+
+    // Prototype extensions for common used string functions
+    String.prototype.beginsWith = function (t, i) {
+        if (i == false) {
+            return (t == this.substring(0, t.length));
+        }
+        else {
+            return (t.toLowerCase() == this.substring(0, t.length).toLowerCase());
+        }
+    }
+
+    String.prototype.endsWith = function (t, i) {
+        if (i == false) {
+            return (t == this.substring(this.length - t.length));
+        }
+        else {
+            return (t.toLowerCase() == this.substring(this.length - t.length).toLowerCase());
+        }
+    }
 })(jQuery);
 
-// Prototype extensions for common used string functions
-String.prototype.beginsWith = function (t, i) {
-    if (i == false) {
-        return (t == this.substring(0, t.length));
-    }
-    else {
-        return (t.toLowerCase() == this.substring(0, t.length).toLowerCase());
-    }
-}
-
-String.prototype.endsWith = function (t, i) {
-    if (i == false) {
-        return (t == this.substring(this.length - t.length));
-    }
-    else {
-        return (t.toLowerCase() == this.substring(this.length - t.length).toLowerCase());
-    }
-}

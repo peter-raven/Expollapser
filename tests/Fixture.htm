@@ -156,30 +156,6 @@
 	            ok(!$header.hasClass('myHeaderCss'));
 	        });
 
-	        module('Setting headerChangeHtml');
-
-	        test('Replace expression will replace part of header html', function () {
-	            var $header = $('#header9');
-	            $header.expollapser({ headerExpandHtml: 'before--->after' });
-	            $header.expollapser('expand');
-	            equals($header.html(), 'This is after expand');
-	        });
-
-	        test('Replace expression will restore original part of header html', function () {
-	            var $header = $('#header11');
-	            $header.expollapser({ headerExpandHtml: 'before--->after' });
-	            $header.expollapser('expand');
-	            $header.expollapser('collapse');
-	            equals($header.html(), 'This is before expand');
-	        });
-
-	        test('Replace expression will support comma-separated pairs of replace parts', function () {
-	            var $header = $('#header10');
-	            $header.expollapser({ headerExpandHtml: 'before--->after,closed--->open' });
-	            $header.expollapser('expand');
-	            equals($header.html(), 'This is after expand and the expollapser is open');
-	        });
-
 	        module('Setting headerReplaceHtml');
 
 	        test('Replace expression will replace part of header html on expand', function () {

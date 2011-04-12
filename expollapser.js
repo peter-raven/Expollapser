@@ -70,8 +70,6 @@ function expollapser_setDefaults(options) {
                         settings.headerReplaceHtml(header);
                     });
 
-                    settings.headerExpandHtml = processHeaderExpandHtml(settings.headerExpandHtml);
-                    settings.togglerChangeHtml = processTogglerChangeHtml(settings.togglerChangeHtml);
                     settings.contentHtml = processContentHtml(settings.contentHtml, settings);
 
                     // Setup data
@@ -86,14 +84,10 @@ function expollapser_setDefaults(options) {
                     if (settings.open) {
                         ensureClass($(this), settings.expandHeaderCss);
                         settings.headerReplaceHtml($(this));
-                        //if (!$(this).hasClass(settings.expandHeaderCss))
-                        //    $(this).addClass(settings.expandHeaderCss);
                     }
                     else {
                         ensureClass($(this), settings.collapseHeaderCss);
                         settings.headerReplaceHtml($(this));
-                        //if (!$(this).hasClass(settings.collapseHeaderCss))
-                        //    $(this).addClass(settings.collapseHeaderCss);
                     }                    
 
                     // Setup togglers
@@ -126,10 +120,6 @@ function expollapser_setDefaults(options) {
                 // Handle special case with multiple togglers producing multiple contents
                 if (data.isopen == true && data.settings.togglerSeparation && data.expandedBy.get(0) != toggler.get(0)) {
                     var $this = $(this);
-                    //if (data.expandedBy.data('expollapser').oldHtml) {
-                    //	data.expandedBy.html(data.expandedBy.data('expollapser').oldHtml);
-                    //	data.expandedBy.data('expollapser').oldHtml = null;
-                    //}
                     $(this).expollapser('collapse', data.expandedBy, function () { $this.expollapser('expand', toggler) });
                 }
                 else { // Default toggle
@@ -153,20 +143,6 @@ function expollapser_setDefaults(options) {
                         toggler = $(data.getTogglers($this).get(0));
                     var contentElement = settings.contentElement($this);
                     settings.preExpand($this, contentElement, toggler);
-                    //applyCss(settings.expandHeaderCss, $this);
-                    //applyCss(settings.expandContentCss, contentElement);
-
-                    // Store old html of toggler and set new toggler html (if opted in)
-                    if (settings.togglerChangeHtml) {
-                        toggler.data('expollapser').oldHtml = toggler.html();
-                        settings.togglerChangeHtml(toggler);
-                    }
-                    // Store old html of header and set new header (if opted in)
-                    if (settings.headerExpandHtml) {
-                        data.headerOldHtml = $this.html();
-                        settings.headerExpandHtml($this);
-                        ensureToggleHookup(data.getTogglers, $this, settings.contentHtml);
-                    }
 
                     // Set content and do expand animation
                     settings.contentHtml($this, contentElement, toggler, function () {
@@ -177,7 +153,6 @@ function expollapser_setDefaults(options) {
                             data.settings.postExpand($this, contentElement, toggler);
                         });
                     });
-
                 }
             });
         },
@@ -194,16 +169,6 @@ function expollapser_setDefaults(options) {
                         toggler = $this;
                     var contentElement = settings.contentElement($this);
                     settings.preCollapse($this, contentElement, toggler);
-                    if (toggler.data('expollapser').oldHtml) {
-                        toggler.html(toggler.data('expollapser').oldHtml);
-                        toggler.data('expollapser').oldHtml = null;
-                    }
-
-                    if (data.headerOldHtml && data.headerOldHtml.length > 0) {
-                        $this.html(data.headerOldHtml);
-                        data.headerOldHtml = null;
-                        ensureToggleHookup(data.getTogglers, $this, settings.contentHtml);
-                    }
 
                     data.isopen = false;
                     settings.collapseAnimator($this, contentElement, toggler, function () {
@@ -314,37 +279,6 @@ function expollapser_setDefaults(options) {
             }
 
             return function() { };
-        }
-
-        return setting;
-    }
-
-    function processHeaderExpandHtml(setting) {
-        assertStringOrFunction(setting, 'headerExpandHtml', true);
-        if (typeof setting === 'string') {
-            var html = setting;
-            if (html.indexOf('--->') > -1) {
-                var replaceExpressions = html.split(',');
-                setting = function (header) {
-                    for (var item in replaceExpressions) {
-                        var pair = replaceExpressions[item].split('--->');
-                        header.html(header.html().replace(pair[0], pair[1]));
-                    }
-                };
-            }
-            else {
-                setting = function (header) { header.html(html); }
-            }
-        }
-
-        return setting;
-    }
-
-    function processTogglerChangeHtml(setting) {
-        assertStringOrFunction(setting, 'togglerChangeHtml', true);
-        if (typeof setting === 'string') {
-            var html = setting;
-            setting = function (toggler) { toggler.html(html); };
         }
 
         return setting;

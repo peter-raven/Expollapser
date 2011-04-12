@@ -5,13 +5,13 @@ Expollapser version 0.11.0
 var expollapser_defaults = {
     'toggler': 'header',
     'contentElement': 'next',
-    'expandHeaderCss': '',
-    'expandContentCss': '',
-    'collapseHeaderCss': '',
-    'collapseContentCss': '',
+    'expandHeaderCss': null,
+    'expandContentCss': null,
+    'collapseHeaderCss': null,
+    'collapseContentCss': null,
     'headerExpandHtml': null,
+    'headerReplaceHtml': '',
     'open': false,
-    'togglerChangeHtml': null,
     'contentHtml': '',
     'expandAnimator': function (header, content, toggler, callback) { $(content).slideDown(200, callback); },
     'collapseAnimator': function (header, content, toggler, callback) { $(content).slideUp(200, callback); },
@@ -53,29 +53,48 @@ function expollapser_setDefaults(options) {
                     // Process the settings, basically by converting all convenience string settings
                     // to underlying functions.
                     settings.contentElement = processContentElement(settings.contentElement);
-                    processCssSetting(settings, 'expandHeaderCss', 'collapseHeaderCss');
-                    processCssSetting(settings, 'expandContentCss', 'collapseContentCss');
-                    processCssSetting(settings, 'collapseHeaderCss', 'expandHeaderCss');
-                    processCssSetting(settings, 'collapseContentCss', 'expandContentCss');
+                    settings.headerReplaceHtml = processHeaderReplaceHtml(settings.headerReplaceHtml);
+                    
+                    settings.preExpand = insertFn(settings.preExpand, function(header, content, toggler) {
+                        ensureClass(header, settings.expandHeaderCss);
+                        ensureClassRemoved(header, settings.collapseHeaderCss);
+                    });
+
+                    settings.postExpand = insertFn(settings.postExpand, function(header, content, toggler) {
+                        settings.headerReplaceHtml(header);
+                    });
+
+                    settings.postCollapse = insertFn(settings.postCollapse, function(header, content, toggler) {
+                        ensureClassRemoved(header, settings.expandHeaderCss);
+                        ensureClass(header, settings.collapseHeaderCss);
+                        settings.headerReplaceHtml(header);
+                    });
+
                     settings.headerExpandHtml = processHeaderExpandHtml(settings.headerExpandHtml);
                     settings.togglerChangeHtml = processTogglerChangeHtml(settings.togglerChangeHtml);
                     settings.contentHtml = processContentHtml(settings.contentHtml, settings);
 
-                    if (settings.open)
-                        applyCss(settings.expandHeaderCss, $this);
-                    else
-                        applyCss(settings.collapseHeaderCss, $this);
-
                     // Setup data
                     $(this).data('expollapser', {
                         isopen: settings.open,
-                        initialOpen: settings.open,
                         getTogglers: resolveTogglers(settings.toggler, $this),
                         contentLoaded: false,
-                        hookedUp: false,
                         disabled: false,
                         settings: settings
                     });
+
+                    if (settings.open) {
+                        ensureClass($(this), settings.expandHeaderCss);
+                        settings.headerReplaceHtml($(this));
+                        //if (!$(this).hasClass(settings.expandHeaderCss))
+                        //    $(this).addClass(settings.expandHeaderCss);
+                    }
+                    else {
+                        ensureClass($(this), settings.collapseHeaderCss);
+                        settings.headerReplaceHtml($(this));
+                        //if (!$(this).hasClass(settings.collapseHeaderCss))
+                        //    $(this).addClass(settings.collapseHeaderCss);
+                    }                    
 
                     // Setup togglers
                     ensureToggleHookup($(this).data('expollapser').getTogglers, $(this));
@@ -134,8 +153,8 @@ function expollapser_setDefaults(options) {
                         toggler = $(data.getTogglers($this).get(0));
                     var contentElement = settings.contentElement($this);
                     settings.preExpand($this, contentElement, toggler);
-                    applyCss(settings.expandHeaderCss, $this);
-                    applyCss(settings.expandContentCss, contentElement);
+                    //applyCss(settings.expandHeaderCss, $this);
+                    //applyCss(settings.expandContentCss, contentElement);
 
                     // Store old html of toggler and set new toggler html (if opted in)
                     if (settings.togglerChangeHtml) {
@@ -155,12 +174,6 @@ function expollapser_setDefaults(options) {
                         data.isopen = true;
 
                         settings.expandAnimator($this, contentElement, toggler, function () {
-                            // Handle option of automatically hooking up nested, lazy loaded expollapsers
-                            if (data.hookedUp == false && settings.autoHookupChildrenOn != '') {
-                                $(settings.autoHookupChildrenOn, contentElement).expollapser(settings);
-                                data.hookedUp = true;
-                            }
-
                             data.settings.postExpand($this, contentElement, toggler);
                         });
                     });
@@ -177,10 +190,10 @@ function expollapser_setDefaults(options) {
                 if (data.isopen == true && data.disabled == false) {
                     if (toggler == null)
                         toggler = data.expandedBy;
+                    if (toggler == null)
+                        toggler = $this;
                     var contentElement = settings.contentElement($this);
                     settings.preCollapse($this, contentElement, toggler);
-                    applyCss(settings.collapseHeaderCss, $this);
-                    applyCss(settings.collapseContentCss, contentElement);
                     if (toggler.data('expollapser').oldHtml) {
                         toggler.html(toggler.data('expollapser').oldHtml);
                         toggler.data('expollapser').oldHtml = null;
@@ -229,6 +242,23 @@ function expollapser_setDefaults(options) {
         alert('Expollapser options error: ' + name + ' should be either a string or a function.');
     }
 
+    function insertFn(fn, fnInsert) {
+        return function(header, content, toggler) {
+            fnInsert(header, content, toggler);
+            fn(header, content, toggler);
+        };
+    }
+
+    function ensureClass(jq, cssClass) {
+        if (cssClass && !jq.hasClass(cssClass))
+            jq.addClass(cssClass);
+    };
+
+    function ensureClassRemoved(jq, cssClass) {
+        if (cssClass)
+            jq.removeClass(cssClass);
+    };
+
     // Parses contentElement setting and returns a function to get the content element
     function processContentElement(contentSetting) {
         assertStringOrFunction(contentSetting, 'contentElement');
@@ -264,16 +294,29 @@ function expollapser_setDefaults(options) {
         return togglersSetting;
     }
 
-    // Processes a css setting (basically converting a non-prefixed class name with corresponding
-    // +class and -class settings).
-    function processCssSetting(setting, name, pairName) {
-        var csses = setting[name].split(',');
-        for (var item in csses) {
-            if (csses[item].length > 0 && !csses[item].beginsWith('+') && !csses[item].beginsWith('-')) {
-                setting[name] = setting[name] + ',+' + csses[item];
-                setting[pairName] = setting[pairName] + ',-' + csses[item];
+    function processHeaderReplaceHtml(setting) {
+        assertStringOrFunction(setting, 'headerReplaceHtml');
+        if (typeof setting === 'string') {
+            var html = setting;
+            if (html.indexOf('<-->') > -1) {
+                var replaceExpressions = html.split(',');
+                return function (header) {
+                    for (var item in replaceExpressions) {
+                        var pair = replaceExpressions[item].split('<-->');
+                        if (header.data('expollapser').isopen == true) {
+                            header.html(header.html().replace(pair[0], pair[1]));
+                        }
+                        else {
+                            header.html(header.html().replace(pair[1], pair[0]));
+                        }
+                    }
+                };
             }
+
+            return function() { };
         }
+
+        return setting;
     }
 
     function processHeaderExpandHtml(setting) {
@@ -282,10 +325,10 @@ function expollapser_setDefaults(options) {
             var html = setting;
             if (html.indexOf('--->') > -1) {
                 var replaceExpressions = html.split(',');
-                setting = function (toggler) {
+                setting = function (header) {
                     for (var item in replaceExpressions) {
                         var pair = replaceExpressions[item].split('--->');
-                        toggler.html(toggler.html().replace(pair[0], pair[1]));
+                        header.html(header.html().replace(pair[0], pair[1]));
                     }
                 };
             }
@@ -361,19 +404,6 @@ function expollapser_setDefaults(options) {
 
     function getUniqueId(elem1, elem2, elem3) {
         return $(elem1).attr($.expando) + $(elem2).attr($.expando) + $(elem3).attr($.expando);
-    }
-
-    // Applies the supplied css setting to the supplied element.
-    function applyCss(css, element) {
-        var csses = css.split(',');
-        for (var item in csses) {
-            if (csses[item].beginsWith('+')) {
-                element.addClass(csses[item].substring(1));
-            }
-            else if (csses[item].beginsWith('-')) {
-                element.removeClass(csses[item].substring(1));
-            }
-        }
     }
 
     // Core plugin registration point

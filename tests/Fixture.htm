@@ -75,7 +75,7 @@
 	            $header.expollapser({ contentElement: mock });
 
 	            equals($header.data('expollapser').settings.contentElement($header).get(0), $('#jqContentElem').get(0));
-	            equals(mock.callCount, 1);
+	            ok(mock.callCount > 0);
 	        });
 
 	        module('Open');
@@ -92,7 +92,19 @@
 	            equals($header.data('expollapser').isopen, true);
 	        });
 
-            // TODO: Should hide/show content part.
+	        test('Closed state will ensure that content part is hidden.', function () {
+	            var $header = $('#header20');
+	            $header.expollapser({ 'open': false });
+	            equals($header.next().css('display'), 'none');
+	        });
+
+	        test('Open state will ensure that content part is shown.', function () {
+	            var $header = $('#header21');
+	            $header.expollapser({ 'open': true });
+	            notEqual($header.next().css('display'), 'none');
+	        });
+
+	        // TODO: Should hide/show content part.
 
 	        module('ExpandHeaderCss');
 
@@ -118,7 +130,7 @@
 
 	        test('expandHeaderCss will remove added css from header on collapse', function () {
 	            var $header = $('#header8');
-	            $header.expollapser({ expandHeaderCss: 'myHeaderCss', collapseAnimator: function (header, content, toggler, callback) { $(content).show(); callback(); } });
+	            $header.expollapser({ expandHeaderCss: 'myHeaderCss', collapseAnimator: function (header, content, toggler, callback) { $(content).hide(); callback(); } });
 	            $header.expollapser('expand');
 	            $header.expollapser('collapse');
 	            ok(!$header.hasClass('myHeaderCss'));
@@ -140,7 +152,7 @@
 
 	        test('collapseHeaderCss will apply css to header on collapse', function () {
 	            var $header = $('#header7b');
-	            $header.expollapser({ collapseHeaderCss: 'myHeaderCss', collapseAnimator: function (header, content, toggler, callback) { $(content).show(); callback(); } });
+	            $header.expollapser({ collapseHeaderCss: 'myHeaderCss', collapseAnimator: function (header, content, toggler, callback) { $(content).hide(); callback(); } });
 	            $header.expollapser('expand');
 	            $header.expollapser('collapse');
 
@@ -160,21 +172,21 @@
 
 	        test('Replace expression will replace part of header html on expand', function () {
 	            var $header = $('#header15');
-	            $header.expollapser({ headerReplaceHtml: 'before<-->after' });
+	            $header.expollapser({ headerReplaceHtml: 'before<-->after', expandAnimator: function (header, content, toggler, callback) { $(content).show(); callback(); } });
 	            $header.expollapser('expand');
 	            equals($header.html(), 'This is after expand');
 	        });
 
 	        test('Replace expression will replace part of header html on collapse', function () {
 	            var $header = $('#header17');
-	            $header.expollapser({ open: true, headerReplaceHtml: 'before<-->after', collapseAnimator: function (header, content, toggler, callback) { $(content).show(); callback(); } });
+	            $header.expollapser({ open: true, headerReplaceHtml: 'before<-->after', collapseAnimator: function (header, content, toggler, callback) { $(content).hide(); callback(); } });
 	            $header.expollapser('collapse');
 	            equals($header.html(), 'This is before expand');
 	        });
 
 	        test('Replace expression will replace part of header html on expand and replace back on collapse', function () {
 	            var $header = $('#header16');
-	            $header.expollapser({ headerReplaceHtml: 'before<-->after', collapseAnimator: function (header, content, toggler, callback) { $(content).show(); callback(); } });
+	            $header.expollapser({ headerReplaceHtml: 'before<-->after', collapseAnimator: function (header, content, toggler, callback) { $(content).hide(); callback(); } });
 	            $header.expollapser('expand');
 	            $header.expollapser('collapse');
 	            equals($header.html(), 'This is before expand');
@@ -242,6 +254,10 @@
         <div></div>
         <div id="header19">This is before expand</div>
         <div></div>
+        <div id="header20"></div>
+        <div style="display:block;"></div>
+        <div id="header21"></div>
+        <div style="display:none"></div>
 	</div>
 </body>
 </html>

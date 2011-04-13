@@ -52,17 +52,17 @@ Expollapser version 0.11.0
                     // to underlying functions.
                     settings.contentElement = processContentElement(settings.contentElement);
                     settings.headerReplaceHtml = processHeaderReplaceHtml(settings.headerReplaceHtml);
-                    
-                    settings.preExpand = insertFn(settings.preExpand, function(header, content, toggler) {
+
+                    settings.preExpand = insertFn(settings.preExpand, function (header, content, toggler) {
                         ensureClass(header, settings.expandHeaderCss);
                         ensureClassRemoved(header, settings.collapseHeaderCss);
                     });
 
-                    settings.postExpand = insertFn(settings.postExpand, function(header, content, toggler) {
+                    settings.postExpand = insertFn(settings.postExpand, function (header, content, toggler) {
                         settings.headerReplaceHtml(header);
                     });
 
-                    settings.postCollapse = insertFn(settings.postCollapse, function(header, content, toggler) {
+                    settings.postCollapse = insertFn(settings.postCollapse, function (header, content, toggler) {
                         ensureClassRemoved(header, settings.expandHeaderCss);
                         ensureClass(header, settings.collapseHeaderCss);
                         settings.headerReplaceHtml(header);
@@ -79,14 +79,16 @@ Expollapser version 0.11.0
                         settings: settings
                     });
 
-                    if (settings.open) {
+                    if (settings.open == true) {
                         ensureClass($(this), settings.expandHeaderCss);
                         settings.headerReplaceHtml($(this));
+                        settings.contentElement($this).show();
                     }
                     else {
                         ensureClass($(this), settings.collapseHeaderCss);
                         settings.headerReplaceHtml($(this));
-                    }                    
+                        settings.contentElement($this).hide();
+                    }
 
                     // Setup togglers
                     ensureToggleHookup($(this).data('expollapser').getTogglers, $(this));
@@ -206,7 +208,7 @@ Expollapser version 0.11.0
     }
 
     function insertFn(fn, fnInsert) {
-        return function(header, content, toggler) {
+        return function (header, content, toggler) {
             fnInsert(header, content, toggler);
             fn(header, content, toggler);
         };
@@ -266,7 +268,7 @@ Expollapser version 0.11.0
                 return function (header) {
                     for (var item in replaceExpressions) {
                         var pair = replaceExpressions[item].split('<-->');
-                        if (header.data('expollapser').isopen == true) {
+                        if (header.data('expollapser') && header.data('expollapser').isopen == true) {
                             header.html(header.html().replace(pair[0], pair[1]));
                         }
                         else {
@@ -276,7 +278,7 @@ Expollapser version 0.11.0
                 };
             }
 
-            return function() { };
+            return function () { };
         }
 
         return setting;

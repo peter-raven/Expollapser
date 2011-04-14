@@ -166,6 +166,40 @@
 	            ok(!$header.hasClass('myHeaderCss'));
 	        });
 
+	        module('ExpandBodyCss');
+
+	        test('expandBodyCss will not affect body css on init with closed state', function () {
+	            var $header = $('#header22');
+	            var $body = $('#body22');
+	            $header.expollapser({ expandBodyCss: 'myBodyCss' });
+	            ok(!$body.hasClass('myBodyCss'));
+	        });
+
+	        test('expandBodyCss will apply css to body on init with open state', function () {
+	            var $header = $('#header23');
+	            var $body = $('#body23');
+	            $header.expollapser({ expandBodyCss: 'myBodyCss', 'open': true });
+	            ok($body.hasClass('myBodyCss'));
+	        });
+
+	        test('expandBodyCss will apply css to body on expand', function () {
+	            var $header = $('#header24');
+	            var $body = $('#body24');
+	            $header.expollapser({ expandBodyCss: 'myBodyCss' });
+	            $header.expollapser('expand');
+
+	            ok($header.hasClass('myBodyCss'));
+	        });
+
+	        test('expandBodyCss will remove added css from body on collapse', function () {
+	            var $header = $('#header25');
+	            var $body = $('#body25');
+	            $header.expollapser({ expandBodyCss: 'myBodyCss', collapseAnimator: function (header, body, toggler, callback) { $(content).hide(); callback(); } });
+	            $header.expollapser('expand');
+	            $header.expollapser('collapse');
+	            ok(!$header.hasClass('myBodyCss'));
+	        });
+
 	        module('Setting headerReplaceHtml');
 
 	        test('Replace expression will replace part of header html on expand', function () {
@@ -256,6 +290,12 @@
         <div style="display:block;"></div>
         <div id="header21"></div>
         <div style="display:none"></div>
+        <div id="header22"></div>
+        <div id="body22"></div>
+        <div id="header23"></div>
+        <div id="body23"></div>
+        <div id="header24"></div>
+        <div id="body24"></div>
 	</div>
 </body>
 </html>

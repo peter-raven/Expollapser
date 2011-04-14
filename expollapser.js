@@ -17,7 +17,6 @@ Expollapser version 0.11.0
         'contentHtml': '',
         'expandAnimator': function (header, content, toggler, callback) { $(content).slideDown(200, callback); },
         'collapseAnimator': function (header, content, toggler, callback) { $(content).slideUp(200, callback); },
-        'preExpand': function (header, content, toggler) { },
         'postExpand': function (header, content, toggler) { },
         'preCollapse': function (header, content, toggler) { },
         'postCollapse': function (header, content, toggler) { },
@@ -53,9 +52,9 @@ Expollapser version 0.11.0
                     settings.contentElement = processContentElement(settings.contentElement);
                     settings.headerReplaceHtml = processHeaderReplaceHtml(settings.headerReplaceHtml);
 
-                    settings.preExpand = insertFn(settings.preExpand, function (header, content, toggler) {
-                        ensureClass(header, settings.expandHeaderCss);
-                        ensureClassRemoved(header, settings.collapseHeaderCss);
+                    $this.bind('preExpand', function(e, context) {
+                        ensureClass(context.header, settings.expandHeaderCss);
+                        ensureClassRemoved(context.header, settings.collapseHeaderCss);
                     });
 
                     settings.postExpand = insertFn(settings.postExpand, function (header, content, toggler) {
@@ -142,7 +141,8 @@ Expollapser version 0.11.0
                     if (toggler == null)
                         toggler = $(data.getTogglers($this).get(0));
                     var contentElement = settings.contentElement($this);
-                    settings.preExpand($this, contentElement, toggler);
+                    $this.trigger('preExpand', { header: $this, content: contentElement, toggler: toggler });
+                    //settings.preExpand($this, contentElement, toggler);
 
                     // Set content and do expand animation
                     settings.contentHtml($this, contentElement, toggler, function () {

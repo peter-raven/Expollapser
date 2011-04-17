@@ -187,8 +187,7 @@
 	            var $body = $('#body24');
 	            $header.expollapser({ expandBodyCss: 'myBodyCss' });
 	            $header.expollapser('expand');
-
-	            ok($header.hasClass('myBodyCss'));
+	            ok($body.hasClass('myBodyCss'));
 	        });
 
 	        test('expandBodyCss will remove added css from body on collapse', function () {
@@ -197,7 +196,7 @@
 	            $header.expollapser({ expandBodyCss: 'myBodyCss', collapseAnimator: function (header, body, toggler, callback) { $(content).hide(); callback(); } });
 	            $header.expollapser('expand');
 	            $header.expollapser('collapse');
-	            ok(!$header.hasClass('myBodyCss'));
+	            ok(!$body.hasClass('myBodyCss'));
 	        });
 
 	        module('Setting headerReplaceHtml');

@@ -48,6 +48,7 @@ Expollapser version 0.11.0
 					// to underlying functions.
 					settings.bodyElement = processBodyElement(settings.bodyElement);
 					settings.headerReplaceHtml = processHeaderReplaceHtml(settings.headerReplaceHtml);
+					settings.contentHtml = processContentHtml(settings.contentHtml, settings);
 
 					$(this).bind('preExpand', function (e, context) {
 						ensureClass(context.header, settings.expandHeaderCss);
@@ -67,8 +68,6 @@ Expollapser version 0.11.0
 						ensureClass(context.body, settings.collapseBodyCss);
 						settings.headerReplaceHtml(context.header);
 					});
-
-					settings.contentHtml = processContentHtml(settings.contentHtml, settings);
 
 					// Setup data
 					$(this).data('expollapser', {
@@ -187,11 +186,6 @@ Expollapser version 0.11.0
 			// Set up click events of togglersFn if they have no click event already
 			if (!$.data(this, 'events') || !$.data(this, 'events')['click'] || $.data(this, 'events')['click'].length == 0) {
 				$(this).css('cursor', 'hand');
-				if (!$(this).data('expollapser'))
-					$(this).data('expollapser', { oldHtml: null });
-				else
-					$.extend($(this).data('expollapser'), { oldHtml: null });
-
 				$(this).bind('click.expollapser', function () {
 					headerElement.expollapser('toggle', $(this));
 					return false;
@@ -205,13 +199,6 @@ Expollapser version 0.11.0
 			return;
 
 		alert('Expollapser options error: ' + name + ' should be either a string or a function.');
-	}
-
-	function insertFn(fn, fnInsert) {
-		return function (header, content, toggler) {
-			fnInsert(header, content, toggler);
-			fn(header, content, toggler);
-		};
 	}
 
 	function ensureClass(jq, cssClass) {

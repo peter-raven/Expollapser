@@ -17,9 +17,6 @@ Expollapser version 0.11.0
 		'contentHtml': '',
 		'expandAnimator': function (header, body, toggler, callback) { $(body).slideDown(200, callback); },
 		'collapseAnimator': function (header, body, toggler, callback) { $(body).slideUp(200, callback); },
-		'postExpand': function (header, body, toggler) { },
-		'preCollapse': function (header, body, toggler) { },
-		'postCollapse': function (header, body, toggler) { },
 		'togglerSeparation': false
 	};
 
@@ -171,7 +168,7 @@ Expollapser version 0.11.0
 					if (toggler == null)
 						toggler = $this;
 					var bodyElement = settings.contentElement($this);
-					settings.preCollapse($this, bodyElement, toggler);
+					$(this).trigger('preCollapse', { header: $this, body: bodyElement, toggler: toggler });
 
 					data.isopen = false;
 					settings.collapseAnimator($this, bodyElement, toggler, function () {

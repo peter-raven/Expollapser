@@ -52,21 +52,23 @@ Expollapser version 0.11.0
 					settings.contentElement = processContentElement(settings.contentElement);
 					settings.headerReplaceHtml = processHeaderReplaceHtml(settings.headerReplaceHtml);
 
-					$this.bind('preExpand', function (e, context) {
+					$(this).bind('preExpand', function (e, context) {
 						ensureClass(context.header, settings.expandHeaderCss);
 						ensureClassRemoved(context.header, settings.collapseHeaderCss);
 						ensureClass(context.body, settings.expandBodyCss);
 						ensureClassRemoved(context.body, settings.collapseBodyCss);
 					});
 
-					$this.bind('postExpand', function (e, context) {
+					$(this).bind('postExpand', function (e, context) {
 						settings.headerReplaceHtml(context.header);
 					});
 
-					settings.postCollapse = insertFn(settings.postCollapse, function (header, content, toggler) {
-						ensureClassRemoved(header, settings.expandHeaderCss);
-						ensureClass(header, settings.collapseHeaderCss);
-						settings.headerReplaceHtml(header);
+					$(this).bind('postCollapse', function (e, context) {
+						ensureClassRemoved(context.header, settings.expandHeaderCss);
+						ensureClass(context.header, settings.collapseHeaderCss);
+						ensureClassRemoved(context.body, settings.expandBodyCss);
+						ensureClass(context.body, settings.collapseBodyCss);
+						settings.headerReplaceHtml(context.header);
 					});
 
 					settings.contentHtml = processContentHtml(settings.contentHtml, settings);
@@ -88,7 +90,7 @@ Expollapser version 0.11.0
 					}
 					else {
 						ensureClass($(this), settings.collapseHeaderCss);
-						ensureClass($(this), settings.collapseBodyCss);
+						ensureClass(settings.contentElement($(this)), settings.collapseBodyCss);
 						settings.headerReplaceHtml($(this));
 						settings.contentElement($this).hide();
 					}
@@ -168,12 +170,12 @@ Expollapser version 0.11.0
 						toggler = data.expandedBy;
 					if (toggler == null)
 						toggler = $this;
-					var contentElement = settings.contentElement($this);
-					settings.preCollapse($this, contentElement, toggler);
+					var bodyElement = settings.contentElement($this);
+					settings.preCollapse($this, bodyElement, toggler);
 
 					data.isopen = false;
-					settings.collapseAnimator($this, contentElement, toggler, function () {
-						data.settings.postCollapse($this, contentElement, toggler);
+					settings.collapseAnimator($this, bodyElement, toggler, function () {
+						$this.trigger('postCollapse', { header: $this, body: bodyElement, toggler: toggler });
 						if (callback)
 							callback();
 					});

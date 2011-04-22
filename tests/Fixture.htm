@@ -104,7 +104,7 @@
 	            notEqual($header.next().css('display'), 'none');
 	        });
 
-	        module('ExpandHeaderCss');
+	        module('expandHeaderCss');
 
 	        test('expandHeaderCss will not affect header css on init with closed state', function () {
 	            var $header = $('#header6');
@@ -134,7 +134,7 @@
 	            ok(!$header.hasClass('myHeaderCss'));
 	        });
 
-	        module('CollapseHeaderCss');
+	        module('collapseHeaderCss');
 
 	        test('collapseHeaderCss will not affect header css on init with open state', function () {
 	            var $header = $('#header6b');
@@ -166,7 +166,7 @@
 	            ok(!$header.hasClass('myHeaderCss'));
 	        });
 
-	        module('ExpandBodyCss');
+	        module('expandBodyCss');
 
 	        test('expandBodyCss will not affect body css on init with closed state', function () {
 	            var $header = $('#header22');
@@ -197,6 +197,42 @@
 	            $header.expollapser('expand');
 	            $header.expollapser('collapse');
 	            ok(!$body.hasClass('myBodyCss'));
+	        });
+
+	        module('collapseBodyCss');
+
+	        test('collapseBodyCss will not affect body css on init with open state', function () {
+	        	var $header = $('#header26');
+	        	var $body = $('#body26');
+	        	$header.expollapser({ collapseBodyCss: 'myBodyCss', 'open': true });
+	        	ok(!$body.hasClass('myBodyCss'));
+	        });
+
+	        test('collapseBodyCss will apply css to body on init with closed state', function () {
+	        	var $header = $('#header27');
+	        	var $body = $('#body27');
+	        	$header.expollapser({ collapseBodyCss: 'myBodyCss' });
+	        	ok($body.hasClass('myBodyCss'));
+	        });
+
+	        test('collapseBodyCss will apply css to body on collapse', function () {
+	        	var $header = $('#header28');
+	        	var $body = $('#body28');
+	        	$header.expollapser({ collapseBodyCss: 'myBodyCss', collapseAnimator: function (header, body, toggler, callback) { $(body).hide(); callback(); } });
+	        	$header.expollapser('expand');
+	        	$header.expollapser('collapse');
+
+	        	ok($body.hasClass('myBodyCss'));
+	        });
+
+	        test('collapseBodyCss will remove css from body on expand', function () {
+	        	var $header = $('#header29');
+	        	var $body = $('#body29');
+	        	$header.expollapser({ collapseBodyCss: 'myBodyCss' });
+	        	$header.expollapser('expand');
+	        	$header.expollapser('collapse');
+	        	$header.expollapser('expand');
+	        	ok(!$body.hasClass('myBodyCss'));
 	        });
 
 	        module('Setting headerReplaceHtml');
@@ -295,6 +331,14 @@
         <div id="body23"></div>
         <div id="header24"></div>
         <div id="body24"></div>
+				<div id="header25"></div>
+        <div id="body25"></div>
+				<div id="header26"></div>
+        <div id="body26"></div>
+				<div id="header27"></div>
+        <div id="body27"></div>
+				<div id="header28"></div>
+        <div id="body28"></div>
 	</div>
 </body>
 </html>

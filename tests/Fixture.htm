@@ -52,20 +52,20 @@
 	        test('bodyElement will default to next', function () {
 	            var $header = $('#header4');
 	            $header.expollapser();
-	            equals($header.data('expollapser').settings.bodyElement($header).get(0), $('#nextContent').get(0));
+	            equals($header.data('expollapser').getBody($header).get(0), $('#nextContent').get(0));
 	        });
 
 	        test('bodyElement \'prev\' will select previous sibling to header', function () {
 	            var $header = $('#header4');
 	            $header.expollapser({ 'bodyElement': 'prev' });
-	            equals($header.data('expollapser').settings.bodyElement($header).get(0), $('#prevContent').get(0));
+	            equals($header.data('expollapser').getBody($header).get(0), $('#prevContent').get(0));
 	        });
 
 	        test('bodyElement with jQuery expression will select by jQuery', function () {
 	            var $header = $('#header5');
 	            $header.expollapser({ bodyElement: '#jqContentElem' });
 
-	            equals($header.data('expollapser').settings.bodyElement($header).get(0), $('#jqContentElem').get(0));
+	            equals($header.data('expollapser').getBody($header).get(0), $('#jqContentElem').get(0));
 	        });
 
 	        test('bodyElement with function will select by function', function () {

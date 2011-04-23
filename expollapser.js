@@ -46,8 +46,9 @@ Expollapser version 0.11.0
 
 					// Process the settings, basically by converting all convenience string settings
 					// to underlying functions.
-					settings.bodyElement = processBodyElement(settings.bodyElement);
-					settings.headerReplaceHtml = processHeaderReplaceHtml(settings.headerReplaceHtml);
+					var getBodyFn = processBodyElement(settings.bodyElement);
+					var getTogglersFn = resolveTogglers(settings.toggler, $(this));
+					var replaceHeaderHtmlFn = processHeaderReplaceHtml(settings.headerReplaceHtml);
 					settings.contentHtml = processContentHtml(settings.contentHtml, settings);
 
 					$(this).bind('preExpand', function (e, context) {
@@ -58,7 +59,7 @@ Expollapser version 0.11.0
 					});
 
 					$(this).bind('postExpand', function (e, context) {
-						settings.headerReplaceHtml(context.header);
+						replaceHeaderHtmlFn(context.header);
 					});
 
 					$(this).bind('postCollapse', function (e, context) {
@@ -66,13 +67,14 @@ Expollapser version 0.11.0
 						ensureClass(context.header, settings.collapseHeaderCss);
 						ensureClassRemoved(context.body, settings.expandBodyCss);
 						ensureClass(context.body, settings.collapseBodyCss);
-						settings.headerReplaceHtml(context.header);
+						replaceHeaderHtmlFn(context.header);
 					});
 
 					// Setup data
 					$(this).data('expollapser', {
 						isopen: settings.open,
-						getTogglers: resolveTogglers(settings.toggler, $this),
+						getTogglers: getTogglersFn,
+						getBody: getBodyFn,
 						contentLoaded: false,
 						disabled: false,
 						settings: settings
@@ -80,15 +82,15 @@ Expollapser version 0.11.0
 
 					if (settings.open == true) {
 						ensureClass($(this), settings.expandHeaderCss);
-						ensureClass(settings.bodyElement($(this)), settings.expandBodyCss);
-						settings.headerReplaceHtml($(this));
-						settings.bodyElement($this).show();
+						ensureClass(getBodyFn($(this)), settings.expandBodyCss);
+						replaceHeaderHtmlFn($(this));
+						getBodyFn($(this)).show();
 					}
 					else {
 						ensureClass($(this), settings.collapseHeaderCss);
-						ensureClass(settings.bodyElement($(this)), settings.collapseBodyCss);
-						settings.headerReplaceHtml($(this));
-						settings.bodyElement($this).hide();
+						ensureClass(getBodyFn($(this)), settings.collapseBodyCss);
+						replaceHeaderHtmlFn($(this));
+						getBodyFn($(this)).hide();
 					}
 
 					// Setup togglers
@@ -100,7 +102,7 @@ Expollapser version 0.11.0
 		// disable: Disables expand/collapse functionality
 		disable: function () {
 			return this.each(function () {
-				$(this).data('expollapser')['disabled'] = true;
+				$(this).data('expollapser').disabled = true;
 				$(this).data('expollapser').getTogglers($(this)).css('cursor', 'auto');
 			})
 		},
@@ -108,7 +110,7 @@ Expollapser version 0.11.0
 		// enable: Enables expand/collapse functionality
 		enable: function () {
 			return this.each(function () {
-				$(this).data('expollapser')['disabled'] = false;
+				$(this).data('expollapser').disabled = false;
 				$(this).data('expollapser').getTogglers($(this)).css('cursor', 'hand');
 			})
 		},
@@ -142,7 +144,7 @@ Expollapser version 0.11.0
 				if (data.isopen == false && data.disabled == false) {
 					if (toggler == null)
 						toggler = $(data.getTogglers($this).get(0));
-					var bodyElement = settings.bodyElement($(this));
+					var bodyElement = data.getBody($(this));
 					$(this).trigger('preExpand', { header: $this, body: bodyElement, toggler: toggler });
 
 					// Set content and do expand animation
@@ -159,14 +161,14 @@ Expollapser version 0.11.0
 		collapse: function (toggler, callback) {
 			return this.each(function () {
 				var $this = $(this);
-				var data = $this.data('expollapser');
-				var settings = $this.data('expollapser').settings;
+				var data = $(this).data('expollapser');
+				var settings = $(this).data('expollapser').settings;
 				if (data.isopen == true && data.disabled == false) {
 					if (toggler == null)
 						toggler = data.expandedBy;
 					if (toggler == null)
 						toggler = $this;
-					var bodyElement = settings.bodyElement($this);
+					var bodyElement = data.getBody($(this));
 					$(this).trigger('preCollapse', { header: $this, body: bodyElement, toggler: toggler });
 
 					data.isopen = false;

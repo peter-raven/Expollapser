@@ -9,268 +9,293 @@
 	<link rel="stylesheet" href="css/qunit.css" type="text/css" media="screen" />
 	<script type="text/javascript">
 
-	    $(document).ready(function () {
+		$(document).ready(function () {
 
-	        module('Expollapser init');
+			module('Expollapser init');
 
-	        test('Expollapser default init with no settings', function () {
-	            $('#header1').expollapser();
-	        });
+			test('Expollapser default init with no settings', function () {
+				$('#header1').expollapser();
+			});
 
-	        module('Setting toggler');
+			module('Setting toggler');
 
-	        test('Default init sets toggler to the header', function () {
-	            var $header = $('#header1');
-	            $header.expollapser();
-	            equals($header.data('expollapser').getTogglers($header).get(0), $header.get(0), 'Toggler should default to the header (header supplied as parameter)');
-	        });
+			test('Default init sets toggler to the header', function () {
+				var $header = $('#header1');
+				$header.expollapser();
+				equals($header.data('expollapser').getTogglers($header).get(0), $header.get(0), 'Toggler should default to the header (header supplied as parameter)');
+			});
 
-	        test('Toggler setting \'headerLinks\' will select all links in header', function () {
-	            var $header = $('#header2');
-	            $header.expollapser({ toggler: 'headerLinks' });
-	            equals($header.data('expollapser').getTogglers($header).get(0), $header.find('#link1, #link2').get(0), 'Toggler should select anchor tags in header');
-	            equals($header.data('expollapser').getTogglers($header).get(1), $header.find('#link1, #link2').get(1), 'Toggler should select anchor tags in header');
-	        });
+			test('Toggler setting \'headerLinks\' will select all links in header', function () {
+				var $header = $('#header2');
+				$header.expollapser({ toggler: 'headerLinks' });
+				equals($header.data('expollapser').getTogglers($header).get(0), $header.find('#link1, #link2').get(0), 'Toggler should select anchor tags in header');
+				equals($header.data('expollapser').getTogglers($header).get(1), $header.find('#link1, #link2').get(1), 'Toggler should select anchor tags in header');
+			});
 
-	        test('Toggler setting with jQuery expression will select inside header', function () {
-	            var $header = $('#header3');
-	            $header.expollapser({ toggler: 'span img.selector1' });
-	            equals($header.data('expollapser').getTogglers($header).get(0), $header.find('#image1').get(0), 'Toggler (jQuery) should select image tag in header');
-	        });
+			test('Toggler setting with jQuery expression will select inside header', function () {
+				var $header = $('#header3');
+				$header.expollapser({ toggler: 'span img.selector1' });
+				equals($header.data('expollapser').getTogglers($header).get(0), $header.find('#image1').get(0), 'Toggler (jQuery) should select image tag in header');
+			});
 
-	        test('Toggler setting with function will select using function', function () {
-	            var $header = $('#header3');
-	            var customToggler = function ($header) { return $('span img.selector1', $header); };
-	            var mock = sinon.spy(customToggler);
-	            $header.expollapser({ toggler: mock });
-	            equals(mock.callCount, 1);
-	            equals($header.data('expollapser').settings.toggler($header).get(0), $header.find('#image1').get(0), 'Toggler (function) should select image tag in header');
-	        });
+			test('Toggler setting with function will select using function', function () {
+				var $header = $('#header3');
+				var customToggler = function ($header) { return $('span img.selector1', $header); };
+				var mock = sinon.spy(customToggler);
+				$header.expollapser({ toggler: mock });
+				equals(mock.callCount, 1);
+				equals($header.data('expollapser').settings.toggler($header).get(0), $header.find('#image1').get(0), 'Toggler (function) should select image tag in header');
+			});
 
-	        module('Setting bodyElement');
+			module('Setting bodyElement');
 
-	        test('bodyElement will default to next', function () {
-	            var $header = $('#header4');
-	            $header.expollapser();
-	            equals($header.data('expollapser').getBody($header).get(0), $('#nextContent').get(0));
-	        });
+			test('bodyElement will default to next', function () {
+				var $header = $('#header4');
+				$header.expollapser();
+				equals($header.data('expollapser').getBody($header).get(0), $('#nextContent').get(0));
+			});
 
-	        test('bodyElement \'prev\' will select previous sibling to header', function () {
-	            var $header = $('#header4');
-	            $header.expollapser({ 'bodyElement': 'prev' });
-	            equals($header.data('expollapser').getBody($header).get(0), $('#prevContent').get(0));
-	        });
+			test('bodyElement \'prev\' will select previous sibling to header', function () {
+				var $header = $('#header4');
+				$header.expollapser({ 'bodyElement': 'prev' });
+				equals($header.data('expollapser').getBody($header).get(0), $('#prevContent').get(0));
+			});
 
-	        test('bodyElement with jQuery expression will select by jQuery', function () {
-	            var $header = $('#header5');
-	            $header.expollapser({ bodyElement: '#jqContentElem' });
+			test('bodyElement with jQuery expression will select by jQuery', function () {
+				var $header = $('#header5');
+				$header.expollapser({ bodyElement: '#jqContentElem' });
 
-	            equals($header.data('expollapser').getBody($header).get(0), $('#jqContentElem').get(0));
-	        });
+				equals($header.data('expollapser').getBody($header).get(0), $('#jqContentElem').get(0));
+			});
 
-	        test('bodyElement with function will select by function', function () {
-	            var $header = $('#header5');
-	            var f = function ($header) { return $header.next().next().next() };
-	            var mock = sinon.spy(f);
-	            $header.expollapser({ bodyElement: mock });
+			test('bodyElement with function will select by function', function () {
+				var $header = $('#header5');
+				var f = function ($header) { return $header.next().next().next() };
+				var mock = sinon.spy(f);
+				$header.expollapser({ bodyElement: mock });
 
-	            equals($header.data('expollapser').settings.bodyElement($header).get(0), $('#jqContentElem').get(0));
-	            ok(mock.callCount > 0);
-	        });
+				equals($header.data('expollapser').settings.bodyElement($header).get(0), $('#jqContentElem').get(0));
+				ok(mock.callCount > 0);
+			});
 
-	        module('Open');
+			module('Open');
 
-	        test('Expollapser will default to closed state', function () {
-	            var $header = $('#header12');
-	            $header.expollapser();
-	            equals($header.data('expollapser').isopen, false);
-	        });
+			test('Expollapser will default to closed state', function () {
+				var $header = $('#header12');
+				$header.expollapser();
+				equals($header.data('expollapser').isopen, false);
+			});
 
-	        test('Open setting to true will affect open state', function () {
-	            var $header = $('#header12');
-	            $header.expollapser({ 'open': true });
-	            equals($header.data('expollapser').isopen, true);
-	        });
+			test('Open setting to true will affect open state', function () {
+				var $header = $('#header12');
+				$header.expollapser({ 'open': true });
+				equals($header.data('expollapser').isopen, true);
+			});
 
-	        test('Closed state will ensure that content part is hidden.', function () {
-	            var $header = $('#header20');
-	            $header.expollapser({ 'open': false });
-	            equals($header.next().css('display'), 'none');
-	        });
+			test('Closed state will ensure that content part is hidden.', function () {
+				var $header = $('#header20');
+				$header.expollapser({ 'open': false });
+				equals($header.next().css('display'), 'none');
+			});
 
-	        test('Open state will ensure that content part is shown.', function () {
-	            var $header = $('#header21');
-	            $header.expollapser({ 'open': true });
-	            notEqual($header.next().css('display'), 'none');
-	        });
+			test('Open state will ensure that content part is shown.', function () {
+				var $header = $('#header21');
+				$header.expollapser({ 'open': true });
+				notEqual($header.next().css('display'), 'none');
+			});
 
-	        module('expandHeaderCss');
+			module('expandHeaderCss');
 
-	        test('expandHeaderCss will not affect header css on init with closed state', function () {
-	            var $header = $('#header6');
-	            $header.expollapser({ expandHeaderCss: 'myHeaderCss' });
-	            ok(!$header.hasClass('myHeaderCss'));
-	        });
+			test('expandHeaderCss will not affect header css on init with closed state', function () {
+				var $header = $('#header6');
+				$header.expollapser({ expandHeaderCss: 'myHeaderCss' });
+				ok(!$header.hasClass('myHeaderCss'));
+			});
 
-	        test('expandHeaderCss will apply css to header on init with open state', function () {
-	            var $header = $('#header13');
-	            $header.expollapser({ expandHeaderCss: 'myHeaderCss', 'open': true });
-	            ok($header.hasClass('myHeaderCss'));
-	        });
+			test('expandHeaderCss will apply css to header on init with open state', function () {
+				var $header = $('#header13');
+				$header.expollapser({ expandHeaderCss: 'myHeaderCss', 'open': true });
+				ok($header.hasClass('myHeaderCss'));
+			});
 
-	        test('expandHeaderCss will apply css to header on expand', function () {
-	            var $header = $('#header7');
-	            $header.expollapser({ expandHeaderCss: 'myHeaderCss' });
-	            $header.expollapser('expand');
+			test('expandHeaderCss will apply css to header on expand', function () {
+				var $header = $('#header7');
+				$header.expollapser({ expandHeaderCss: 'myHeaderCss' });
+				$header.expollapser('expand');
 
-	            ok($header.hasClass('myHeaderCss'));
-	        });
+				ok($header.hasClass('myHeaderCss'));
+			});
 
-	        test('expandHeaderCss will remove added css from header on collapse', function () {
-	            var $header = $('#header8');
-	            $header.expollapser({ expandHeaderCss: 'myHeaderCss', collapseAnimator: function (header, content, toggler, callback) { $(content).hide(); callback(); } });
-	            $header.expollapser('expand');
-	            $header.expollapser('collapse');
-	            ok(!$header.hasClass('myHeaderCss'));
-	        });
+			test('expandHeaderCss will remove added css from header on collapse', function () {
+				var $header = $('#header8');
+				$header.expollapser({ expandHeaderCss: 'myHeaderCss', collapseAnimator: function (header, content, toggler, callback) { $(content).hide(); callback(); } });
+				$header.expollapser('expand');
+				$header.expollapser('collapse');
+				ok(!$header.hasClass('myHeaderCss'));
+			});
 
-	        module('collapseHeaderCss');
+			module('collapseHeaderCss');
 
-	        test('collapseHeaderCss will not affect header css on init with open state', function () {
-	            var $header = $('#header6b');
-	            $header.expollapser({ collapseHeaderCss: 'myHeaderCss', 'open': true });
-	            ok(!$header.hasClass('myHeaderCss'));
-	        });
+			test('collapseHeaderCss will not affect header css on init with open state', function () {
+				var $header = $('#header6b');
+				$header.expollapser({ collapseHeaderCss: 'myHeaderCss', 'open': true });
+				ok(!$header.hasClass('myHeaderCss'));
+			});
 
-	        test('collapseHeaderCss will apply css to header on init with closed state', function () {
-	            var $header = $('#header14');
-	            $header.expollapser({ collapseHeaderCss: 'myHeaderCss' });
-	            ok($header.hasClass('myHeaderCss'));
-	        });
+			test('collapseHeaderCss will apply css to header on init with closed state', function () {
+				var $header = $('#header14');
+				$header.expollapser({ collapseHeaderCss: 'myHeaderCss' });
+				ok($header.hasClass('myHeaderCss'));
+			});
 
-	        test('collapseHeaderCss will apply css to header on collapse', function () {
-	            var $header = $('#header7b');
-	            $header.expollapser({ collapseHeaderCss: 'myHeaderCss', collapseAnimator: function (header, content, toggler, callback) { $(content).hide(); callback(); } });
-	            $header.expollapser('expand');
-	            $header.expollapser('collapse');
+			test('collapseHeaderCss will apply css to header on collapse', function () {
+				var $header = $('#header7b');
+				$header.expollapser({ collapseHeaderCss: 'myHeaderCss', collapseAnimator: function (header, content, toggler, callback) { $(content).hide(); callback(); } });
+				$header.expollapser('expand');
+				$header.expollapser('collapse');
 
-	            ok($header.hasClass('myHeaderCss'));
-	        });
+				ok($header.hasClass('myHeaderCss'));
+			});
 
-	        test('collapseHeaderCss will remove css from header on expand', function () {
-	            var $header = $('#header8b');
-	            $header.expollapser({ collapseHeaderCss: 'myHeaderCss' });
-	            $header.expollapser('expand');
-	            $header.expollapser('collapse');
-	            $header.expollapser('expand');
-	            ok(!$header.hasClass('myHeaderCss'));
-	        });
+			test('collapseHeaderCss will remove css from header on expand', function () {
+				var $header = $('#header8b');
+				$header.expollapser({ collapseHeaderCss: 'myHeaderCss' });
+				$header.expollapser('expand');
+				$header.expollapser('collapse');
+				$header.expollapser('expand');
+				ok(!$header.hasClass('myHeaderCss'));
+			});
 
-	        module('expandBodyCss');
+			module('expandBodyCss');
 
-	        test('expandBodyCss will not affect body css on init with closed state', function () {
-	            var $header = $('#header22');
-	            var $body = $('#body22');
-	            $header.expollapser({ expandBodyCss: 'myBodyCss' });
-	            ok(!$body.hasClass('myBodyCss'));
-	        });
+			test('expandBodyCss will not affect body css on init with closed state', function () {
+				var $header = $('#header22');
+				var $body = $('#body22');
+				$header.expollapser({ expandBodyCss: 'myBodyCss' });
+				ok(!$body.hasClass('myBodyCss'));
+			});
 
-	        test('expandBodyCss will apply css to body on init with open state', function () {
-	            var $header = $('#header23');
-	            var $body = $('#body23');
-	            $header.expollapser({ expandBodyCss: 'myBodyCss', 'open': true });
-	            ok($body.hasClass('myBodyCss'));
-	        });
+			test('expandBodyCss will apply css to body on init with open state', function () {
+				var $header = $('#header23');
+				var $body = $('#body23');
+				$header.expollapser({ expandBodyCss: 'myBodyCss', 'open': true });
+				ok($body.hasClass('myBodyCss'));
+			});
 
-	        test('expandBodyCss will apply css to body on expand', function () {
-	            var $header = $('#header24');
-	            var $body = $('#body24');
-	            $header.expollapser({ expandBodyCss: 'myBodyCss' });
-	            $header.expollapser('expand');
-	            ok($body.hasClass('myBodyCss'));
-	        });
+			test('expandBodyCss will apply css to body on expand', function () {
+				var $header = $('#header24');
+				var $body = $('#body24');
+				$header.expollapser({ expandBodyCss: 'myBodyCss' });
+				$header.expollapser('expand');
+				ok($body.hasClass('myBodyCss'));
+			});
 
-	        test('expandBodyCss will remove added css from body on collapse', function () {
-	            var $header = $('#header25');
-	            var $body = $('#body25');
-	            $header.expollapser({ expandBodyCss: 'myBodyCss', collapseAnimator: function (header, body, toggler, callback) { $(content).hide(); callback(); } });
-	            $header.expollapser('expand');
-	            $header.expollapser('collapse');
-	            ok(!$body.hasClass('myBodyCss'));
-	        });
+			test('expandBodyCss will remove added css from body on collapse', function () {
+				var $header = $('#header25');
+				var $body = $('#body25');
+				$header.expollapser({ expandBodyCss: 'myBodyCss', collapseAnimator: function (header, body, toggler, callback) { $(content).hide(); callback(); } });
+				$header.expollapser('expand');
+				$header.expollapser('collapse');
+				ok(!$body.hasClass('myBodyCss'));
+			});
 
-	        module('collapseBodyCss');
+			module('collapseBodyCss');
 
-	        test('collapseBodyCss will not affect body css on init with open state', function () {
-	        	var $header = $('#header26');
-	        	var $body = $('#body26');
-	        	$header.expollapser({ collapseBodyCss: 'myBodyCss', 'open': true });
-	        	ok(!$body.hasClass('myBodyCss'));
-	        });
+			test('collapseBodyCss will not affect body css on init with open state', function () {
+				var $header = $('#header26');
+				var $body = $('#body26');
+				$header.expollapser({ collapseBodyCss: 'myBodyCss', 'open': true });
+				ok(!$body.hasClass('myBodyCss'));
+			});
 
-	        test('collapseBodyCss will apply css to body on init with closed state', function () {
-	        	var $header = $('#header27');
-	        	var $body = $('#body27');
-	        	$header.expollapser({ collapseBodyCss: 'myBodyCss' });
-	        	ok($body.hasClass('myBodyCss'));
-	        });
+			test('collapseBodyCss will apply css to body on init with closed state', function () {
+				var $header = $('#header27');
+				var $body = $('#body27');
+				$header.expollapser({ collapseBodyCss: 'myBodyCss' });
+				ok($body.hasClass('myBodyCss'));
+			});
 
-	        test('collapseBodyCss will apply css to body on collapse', function () {
-	        	var $header = $('#header28');
-	        	var $body = $('#body28');
-	        	$header.expollapser({ collapseBodyCss: 'myBodyCss', collapseAnimator: function (header, body, toggler, callback) { $(body).hide(); callback(); } });
-	        	$header.expollapser('expand');
-	        	$header.expollapser('collapse');
+			test('collapseBodyCss will apply css to body on collapse', function () {
+				var $header = $('#header28');
+				var $body = $('#body28');
+				$header.expollapser({ collapseBodyCss: 'myBodyCss', collapseAnimator: function (header, body, toggler, callback) { $(body).hide(); callback(); } });
+				$header.expollapser('expand');
+				$header.expollapser('collapse');
 
-	        	ok($body.hasClass('myBodyCss'));
-	        });
+				ok($body.hasClass('myBodyCss'));
+			});
 
-	        test('collapseBodyCss will remove css from body on expand', function () {
-	        	var $header = $('#header29');
-	        	var $body = $('#body29');
-	        	$header.expollapser({ collapseBodyCss: 'myBodyCss' });
-	        	$header.expollapser('expand');
-	        	$header.expollapser('collapse');
-	        	$header.expollapser('expand');
-	        	ok(!$body.hasClass('myBodyCss'));
-	        });
+			test('collapseBodyCss will remove css from body on expand', function () {
+				var $header = $('#header29');
+				var $body = $('#body29');
+				$header.expollapser({ collapseBodyCss: 'myBodyCss' });
+				$header.expollapser('expand');
+				$header.expollapser('collapse');
+				$header.expollapser('expand');
+				ok(!$body.hasClass('myBodyCss'));
+			});
 
-	        module('Setting headerReplaceHtml');
+			module('Setting headerReplaceHtml');
 
-	        test('Replace expression will replace part of header html on expand', function () {
-	            var $header = $('#header15');
-	            $header.expollapser({ headerReplaceHtml: 'before<-->after', expandAnimator: function (header, content, toggler, callback) { $(content).show(); callback(); } });
-	            $header.expollapser('expand');
-	            equals($header.html(), 'This is after expand');
-	        });
+			test('Replace expression will replace part of header html on expand', function () {
+				var $header = $('#header15');
+				$header.expollapser({ headerReplaceHtml: 'before<-->after', expandAnimator: function (header, content, toggler, callback) { $(content).show(); callback(); } });
+				$header.expollapser('expand');
+				equals($header.html(), 'This is after expand');
+			});
 
-	        test('Replace expression will replace part of header html on collapse', function () {
-	            var $header = $('#header17');
-	            $header.expollapser({ open: true, headerReplaceHtml: 'before<-->after', collapseAnimator: function (header, content, toggler, callback) { $(content).hide(); callback(); } });
-	            $header.expollapser('collapse');
-	            equals($header.html(), 'This is before expand');
-	        });
+			test('Replace expression will replace part of header html on collapse', function () {
+				var $header = $('#header17');
+				$header.expollapser({ open: true, headerReplaceHtml: 'before<-->after', collapseAnimator: function (header, content, toggler, callback) { $(content).hide(); callback(); } });
+				$header.expollapser('collapse');
+				equals($header.html(), 'This is before expand');
+			});
 
-	        test('Replace expression will replace part of header html on expand and replace back on collapse', function () {
-	            var $header = $('#header16');
-	            $header.expollapser({ headerReplaceHtml: 'before<-->after', collapseAnimator: function (header, content, toggler, callback) { $(content).hide(); callback(); } });
-	            $header.expollapser('expand');
-	            $header.expollapser('collapse');
-	            equals($header.html(), 'This is before expand');
-	        });
+			test('Replace expression will replace part of header html on expand and replace back on collapse', function () {
+				var $header = $('#header16');
+				$header.expollapser({ headerReplaceHtml: 'before<-->after', collapseAnimator: function (header, content, toggler, callback) { $(content).hide(); callback(); } });
+				$header.expollapser('expand');
+				$header.expollapser('collapse');
+				equals($header.html(), 'This is before expand');
+			});
 
-	        test('Replace expression will replace on init with state closed', function () {
-	            var $header = $('#header18');
-	            $header.expollapser({ open: false, headerReplaceHtml: 'before<-->after' });
-	            equals($header.html(), 'This is before expand');
-	        });
+			test('Replace expression will replace on init with state closed', function () {
+				var $header = $('#header18');
+				$header.expollapser({ open: false, headerReplaceHtml: 'before<-->after' });
+				equals($header.html(), 'This is before expand');
+			});
 
-	        test('Replace expression will replace on init with state open', function () {
-	            var $header = $('#header19');
-	            $header.expollapser({ open: true, headerReplaceHtml: 'before<-->after' });
-	            equals($header.html(), 'This is after expand');
-	        });
-	    });				
+			test('Replace expression will replace on init with state open', function () {
+				var $header = $('#header19');
+				$header.expollapser({ open: true, headerReplaceHtml: 'before<-->after' });
+				equals($header.html(), 'This is after expand');
+			});
+
+			module('Disable command.');
+
+			test('Expollapser is enabled by default.', function () {
+				var $header = $('#header29');
+				$header.expollapser();
+				equals($header.data('expollapser').disabled, false);
+			});
+
+			test('Disabled expollapser cannot expand.', function () {
+				var $header = $('#header30');
+				$header.expollapser();
+				$header.expollapser('disable');
+				$header.expollapser('expand');
+				equals(false, $header.data('expollapser').isopen);
+			});
+
+			test('Disabled expollapser cannot collapse.', function () {
+				var $header = $('#header31');
+				$header.expollapser({ open: true });
+				$header.expollapser('disable');
+				$header.expollapser('collapse');
+				equals(true, $header.data('expollapser').isopen);
+			});
+
+		});				
 	
 	</script>
 </head>
@@ -339,6 +364,12 @@
         <div id="body27"></div>
 				<div id="header28"></div>
         <div id="body28"></div>
+				<div id="header29"></div>
+				<div></div>
+				<div id="header30"></div>
+				<div></div>
+				<div id="header31"></div>
+				<div></div>
 	</div>
 </body>
 </html>

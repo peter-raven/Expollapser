@@ -152,7 +152,7 @@ Expollapser version 0.11.0
 					data.expandedBy = toggler;
 					data.isopen = true;
 					settings.contentHtml($(this), bodyElement, toggler, function () { });
-					if (settings.expandAnimator)	 {
+					if (settings.expandAnimator) {
 						settings.expandAnimator($this, bodyElement, toggler, function () {
 							$this.trigger('postExpand', { header: $this, body: bodyElement, toggler: toggler });
 						});
@@ -288,14 +288,24 @@ Expollapser version 0.11.0
 		return setting;
 	}
 
-	function processLazyLoadSetting(setting, data) {
-		assertStringOrFunction(setting, 'contentHtml', false);
+	function processLazyLoadUrl(setting) {
 		if (typeof setting === 'string') {
 			if (setting.beginsWith('attr:')) {
 				var attr = setting.substring(5);
 				return function (header, content, toggler) {
 					return header.attr(attr);
-				}
+				};
+			}
+
+			if (setting.beginsWith('togglerAttr:')) {
+				var attr = setting.substring(12);
+				return function (header, content, toggler) {
+					return toggler.attr(attr);
+				};
+			}
+
+			return function (header, content, toggler) {
+				return setting;
 			}
 		}
 	}

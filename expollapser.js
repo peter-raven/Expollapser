@@ -14,7 +14,8 @@ Expollapser version 0.11.0
 		'collapseBodyCss': null,
 		'headerReplaceHtml': '',
 		'open': false,
-		'contentHtml': '',
+		'lazyLoad': 'togglerAttr:href',
+		'contentHtml' : '',
 		'expandAnimator': function (header, body, toggler, callback) { $(body).slideDown(200, callback); },
 		'collapseAnimator': function (header, body, toggler, callback) { $(body).slideUp(200, callback); },
 		'togglerSeparation': false
@@ -273,14 +274,26 @@ Expollapser version 0.11.0
 		return setting;
 	}
 
+	function processLazyLoadSetting(setting, data)
+	{
+		assertStringOrFunction(setting, 'contentHtml', false);
+		if (typeof setting === 'string') {
+			if (setting.beginsWith('attr:')) {
+				var attr = setting.substring(5);
+				return function (header, content, toggler) {
+					return header.attr(attr);
+				}
+			}
+		}
+	}
+
 	// TODO: getUniqueId check om loaded content.
+	// lazyLoad: attr:..., togglerAttr:..., http://..., function
 	function processContentHtml(setting, settings) {
 		assertStringOrFunction(setting, 'contentHtml', false);
 		var processedSetting;
 		if (typeof setting === 'string') {
 			var stringSetting = setting;
-			if (setting == 'togglerHref')
-				stringSetting = 'togglerAttr:href';
 			if (stringSetting.beginsWith('togglerAttr:')) {
 				processedSetting = function (header, content, toggler, callback) {
 					$.get(toggler.attr(stringSetting.substring(12)), function (response) {

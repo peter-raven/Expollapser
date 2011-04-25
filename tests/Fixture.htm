@@ -295,6 +295,24 @@
 				equals(true, $header.data('expollapser').isopen);
 			});
 
+			test('Disabled expollapser cannot toggle.', function () {
+				var $header = $('#header32');
+				$header.expollapser({ open: true, collapseAnimator: null });
+				$header.expollapser('disable');
+				$header.expollapser('toggle');
+				equals(true, $header.data('expollapser').isopen);
+			});
+
+			test('Disabled expollapser can be enabled.', function () {
+				var $header = $('#qunit-fixture').append('<div id=\'header\'></div><div></div>');
+				$header.expollapser({ open: true, collapseAnimator: null });
+				$header.expollapser('disable');
+				$header.expollapser('enable');
+				$header.expollapser('collapse');
+				equals(false, $header.data('expollapser').isopen);
+			});
+
+			
 		});				
 	
 	</script>
@@ -369,6 +387,8 @@
 				<div id="header30"></div>
 				<div></div>
 				<div id="header31"></div>
+				<div></div>
+				<div id="header32"></div>
 				<div></div>
 	</div>
 </body>

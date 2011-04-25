@@ -356,7 +356,33 @@
 				equals(mock.callCount, 1);
 			});
 
-			
+			module('Collapse command');
+
+			test('Collapse will close expollapser.', function () {
+				var $header = setupTest('<div></div><div></div>').children().first();
+				$header.expollapser({ open: true, collapseAnimator: null });
+				$header.expollapser('collapse');
+				equals($header.data('expollapser').isopen, false);
+			});
+
+			test('Collapse will make body hidden.', function () {
+				var $header = setupTest('<div></div><div></div>').children().first();
+				$header.expollapser({ open: true, collapseAnimator: null });
+				$header.expollapser('collapse');
+				equals($header.next().css('display'), 'none');
+			});
+
+			module('postCollapse event');
+
+			test('postCollapse will fire when collapsed.', function () {
+				var $header = setupTest('<div></div><div></div>').children().first();
+				var postCollapseFn = function () { };
+				var mock = sinon.spy(postCollapseFn);
+				$header.expollapser({ open: true, collapseAnimator: null })
+					.bind('postCollapse', function (e, context) { mock(); });
+				$header.expollapser('collapse');
+				equals(mock.callCount, 1);
+			});
 		});
 
 		function setupTest(html) {

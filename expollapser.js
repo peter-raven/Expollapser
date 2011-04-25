@@ -152,7 +152,7 @@ Expollapser version 0.11.0
 					data.expandedBy = toggler;
 					data.isopen = true;
 					settings.contentHtml($(this), bodyElement, toggler, function () { });
-					if (settings.expandAnimator) {
+					if (settings.expandAnimator)	 {
 						settings.expandAnimator($this, bodyElement, toggler, function () {
 							$this.trigger('postExpand', { header: $this, body: bodyElement, toggler: toggler });
 						});

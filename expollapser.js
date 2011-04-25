@@ -158,6 +158,7 @@ Expollapser version 0.11.0
 						});
 					}
 					else {
+						bodyElement.show();
 						$(this).trigger('postExpand', { header: $(this), body: bodyElement, toggler: toggler });
 					}
 				}
@@ -186,6 +187,8 @@ Expollapser version 0.11.0
 						});
 					}
 					else {
+						bodyElement.hide();
+						$(this).trigger('postCollapse', { header: $(this), body: bodyElement, toggler: toggler });
 						if (callback)
 							callback();
 					}

@@ -246,7 +246,7 @@
 
 			test('Replace expression will replace part of header html on collapse', function () {
 				var $header = $('#header17');
-				$header.expollapser({ open: true, headerReplaceHtml: 'before<-->after', collapseAnimator: function (header, content, toggler, callback) { $(content).hide(); callback(); } });
+				$header.expollapser({ open: true, headerReplaceHtml: 'before<-->after', collapseAnimator: null });
 				$header.expollapser('collapse');
 				equals($header.html(), 'This is before expand');
 			});

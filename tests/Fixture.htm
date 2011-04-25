@@ -284,7 +284,7 @@
 				$header.expollapser({ expandAnimator: null });
 				$header.expollapser('disable');
 				$header.expollapser('expand');
-				equals(false, $header.data('expollapser').isopen);
+				equals($header.data('expollapser').isopen, false);
 			});
 
 			test('Disabled expollapser cannot collapse.', function () {
@@ -292,7 +292,7 @@
 				$header.expollapser({ open: true, collapseAnimator: null });
 				$header.expollapser('disable');
 				$header.expollapser('collapse');
-				equals(true, $header.data('expollapser').isopen);
+				equals($header.data('expollapser').isopen, true);
 			});
 
 			test('Disabled expollapser cannot toggle.', function () {
@@ -300,20 +300,69 @@
 				$header.expollapser({ open: true, collapseAnimator: null });
 				$header.expollapser('disable');
 				$header.expollapser('toggle');
-				equals(true, $header.data('expollapser').isopen);
+				equals($header.data('expollapser').isopen, true);
 			});
 
 			test('Disabled expollapser can be enabled.', function () {
-				var $header = $('#qunit-fixture').append('<div id=\'header\'></div><div></div>');
+				var $header = setupTest('<div></div><div></div>').children().first();
 				$header.expollapser({ open: true, collapseAnimator: null });
 				$header.expollapser('disable');
 				$header.expollapser('enable');
 				$header.expollapser('collapse');
-				equals(false, $header.data('expollapser').isopen);
+				equals($header.data('expollapser').isopen, false);
+			});
+
+			module('Toggle command.');
+
+			test('Toggle will close open expollapser.', function () {
+				var $header = setupTest('<div></div><div></div>').children().first();
+				$header.expollapser({ open: true, collapseAnimator: null });
+				$header.expollapser('toggle');
+				equals($header.data('expollapser').isopen, false);
+			});
+
+			test('Toggle will open closed expollapser.', function () {
+				var $header = setupTest('<div></div><div></div>').children().first();
+				$header.expollapser({ open: false, expandAnimator: null });
+				$header.expollapser('toggle');
+				equals($header.data('expollapser').isopen, true);
+			});
+
+			module('Expand command.');
+
+			test('Expand will open expollapser.', function () {
+				var $header = setupTest('<div></div><div></div>').children().first();
+				$header.expollapser({ open: false, expandAnimator: null });
+				$header.expollapser('expand');
+				equals($header.data('expollapser').isopen, true);
+			});
+
+			test('Expand will make body visible.', function () {
+				var $header = setupTest('<div></div><div style=\'display:none;\'></div>').children().first();
+				$header.expollapser({ open: false, expandAnimator: null });
+				$header.expollapser('expand');
+				notEqual($header.next().css('display'), 'none');
+			});
+
+			module('postExpand event');
+
+			test('postExpand will fire when expanded.', function () {
+				var $header = setupTest('<div></div><div></div>').children().first();
+				var postExpandFn = function () { };
+				var mock = sinon.spy(postExpandFn);
+				$header.expollapser({ open: false, expandAnimator: null })
+					.bind('postExpand', function (e, context) { mock(); });
+				$header.expollapser('expand');
+				equals(mock.callCount, 1);
 			});
 
 			
-		});				
+		});
+
+		function setupTest(html) {
+			$('#qunit-fixture').children().remove();
+			return $('#qunit-fixture').html(html);
+		}
 	
 	</script>
 </head>

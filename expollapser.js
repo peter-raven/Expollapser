@@ -15,7 +15,7 @@ Expollapser version 0.11.0
 		'headerReplaceHtml': '',
 		'open': false,
 		'lazyLoad': 'togglerAttr:href',
-		'contentHtml' : '',
+		'contentHtml': '',
 		'expandAnimator': function (header, body, toggler, callback) { $(body).slideDown(200, callback); },
 		'collapseAnimator': function (header, body, toggler, callback) { $(body).slideUp(200, callback); },
 		'togglerSeparation': false
@@ -152,9 +152,14 @@ Expollapser version 0.11.0
 					data.expandedBy = toggler;
 					data.isopen = true;
 					settings.contentHtml($(this), bodyElement, toggler, function () { });
-					settings.expandAnimator($this, bodyElement, toggler, function () {
-						$this.trigger('postExpand', { header: $this, body: bodyElement, toggler: toggler });
-					});
+					if (settings.expandAnimator) {
+						settings.expandAnimator($this, bodyElement, toggler, function () {
+							$this.trigger('postExpand', { header: $this, body: bodyElement, toggler: toggler });
+						});
+					}
+					else {
+						$(this).trigger('postExpand', { header: $(this), body: bodyElement, toggler: toggler });
+					}
 				}
 			});
 		},
@@ -173,11 +178,17 @@ Expollapser version 0.11.0
 					$(this).trigger('preCollapse', { header: $this, body: bodyElement, toggler: toggler });
 
 					data.isopen = false;
-					settings.collapseAnimator($this, bodyElement, toggler, function () {
-						$this.trigger('postCollapse', { header: $this, body: bodyElement, toggler: toggler });
+					if (settings.collapseAnimator) {
+						settings.collapseAnimator($this, bodyElement, toggler, function () {
+							$this.trigger('postCollapse', { header: $this, body: bodyElement, toggler: toggler });
+							if (callback)
+								callback();
+						});
+					}
+					else {
 						if (callback)
 							callback();
-					});
+					}
 				}
 			});
 		}
@@ -274,8 +285,7 @@ Expollapser version 0.11.0
 		return setting;
 	}
 
-	function processLazyLoadSetting(setting, data)
-	{
+	function processLazyLoadSetting(setting, data) {
 		assertStringOrFunction(setting, 'contentHtml', false);
 		if (typeof setting === 'string') {
 			if (setting.beginsWith('attr:')) {

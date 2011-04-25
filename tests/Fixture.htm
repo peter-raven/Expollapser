@@ -253,7 +253,7 @@
 
 			test('Replace expression will replace part of header html on expand and replace back on collapse', function () {
 				var $header = $('#header16');
-				$header.expollapser({ headerReplaceHtml: 'before<-->after', collapseAnimator: function (header, content, toggler, callback) { $(content).hide(); callback(); } });
+				$header.expollapser({ headerReplaceHtml: 'before<-->after', collapseAnimator: null });
 				$header.expollapser('expand');
 				$header.expollapser('collapse');
 				equals($header.html(), 'This is before expand');
@@ -281,7 +281,7 @@
 
 			test('Disabled expollapser cannot expand.', function () {
 				var $header = $('#header30');
-				$header.expollapser();
+				$header.expollapser({ expandAnimator: null });
 				$header.expollapser('disable');
 				$header.expollapser('expand');
 				equals(false, $header.data('expollapser').isopen);
@@ -289,7 +289,7 @@
 
 			test('Disabled expollapser cannot collapse.', function () {
 				var $header = $('#header31');
-				$header.expollapser({ open: true });
+				$header.expollapser({ open: true, collapseAnimator: null });
 				$header.expollapser('disable');
 				$header.expollapser('collapse');
 				equals(true, $header.data('expollapser').isopen);

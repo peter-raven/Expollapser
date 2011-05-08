@@ -386,7 +386,45 @@
 
 			module('lazyLoad setting');
 
-		  
+			test('lazyLoad function will be called on expand.', function () {
+				var $context = setupTest('<div id=\'header\'></div><div id=\'body\'></div>');
+				var $header = $context.find('#header');
+				var $body = $context.find('#body');
+				var html = '<span>LazyLoaded</span>';
+				$header.expollapser({ lazyLoad: function (header, toggler, body) { body.html(html) } });
+				$header.expollapser('expand');
+				equals($body.html(), html);
+			});
+
+			test('lazyLoad function will not be called on collapse.', function () {
+				var $context = setupTest('<div id=\'header\'></div><div id=\'body\'></div>');
+				var $header = $context.find('#header');
+				var $body = $context.find('#body');
+				var html = '<span>LazyLoaded</span>';
+				$header.expollapser({ open: true, lazyLoad: function (header, toggler, body) { body.html(html) } });
+				$body.html('');
+				$header.expollapser('collapse');
+				equals($body.html(), '');
+			});
+
+			test('lazyLoad function will be called on init with open state.', function () {
+				var $context = setupTest('<div id=\'header\'></div><div id=\'body\'></div>');
+				var $header = $context.find('#header');
+				var $body = $context.find('#body');
+				var html = '<span>LazyLoaded</span>';
+				$header.expollapser({ open: true, lazyLoad: function (header, toggler, body) { body.html(html) } });
+				equals($body.html(), html);
+			});
+
+			test('lazyLoad function will not be called on init with closed state.', function () {
+				var $context = setupTest('<div id=\'header\'></div><div id=\'body\'></div>');
+				var $header = $context.find('#header');
+				var $body = $context.find('#body');
+				var html = '<span>LazyLoaded</span>';
+				$header.expollapser({ open: false, lazyLoad: function (header, toggler, body) { body.html(html) } });
+				equals($body.html(), '');
+			});
+
 		});
 
 		function setupTest(html) {

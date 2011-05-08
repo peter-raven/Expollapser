@@ -15,7 +15,6 @@ Expollapser version 0.11.0
 		'headerReplaceHtml': '',
 		'open': false,
 		'lazyLoad': 'togglerAttr:href',
-		'contentHtml': '',
 		'expandAnimator': function (header, body, toggler, callback) { $(body).slideDown(200, callback); },
 		'collapseAnimator': function (header, body, toggler, callback) { $(body).slideUp(200, callback); },
 		'togglerSeparation': false

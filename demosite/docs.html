@@ -43,7 +43,7 @@
 				</p>
 				<p>
 					The content element will be the next sibling element in the DOM, or you can explicitly
-					specify the content element using the <a href="#contentElement"><code>contentElement</code></a>
+					specify the content element using the <a href="#bodyElement"><code>bodyElement</code></a>
 					setting.<br />
 					<br />
 					Finally, there needs to be an element that works as a toggler, ie. when this element
@@ -61,7 +61,7 @@
 						<br />
 						<br />
 						<code>$('#myElementId').expollapser('init', {<br />
-							&nbsp;&nbsp;contentElement : 'next',<br />
+							&nbsp;&nbsp;bodyElement : 'next',<br />
 							&nbsp;&nbsp;toggler : 'headerLinks'<br />
 							});</code><br />
 						<ul>
@@ -80,30 +80,50 @@
 											object and should return a jQuery object containing all togglers for the expollapser.</span></li>
 								</ul>
 							</li>
-							<li><code>contenElement</code>:<br />
-								<span>Tells how to identify the content element:</span>
+							<li><code>bodyElement</code>:<br />
+								<span>Tells how to identify the body element:</span>
 								<ul>
 									<li><code>'next'</code> :<br />
-										<span>Default setting. The content element will be found by getting the next sibling
+										<span>Default setting. The body element will be found by getting the next sibling
 											to the header DOM element.</span></li>
 									<li><code>'prev'</code> :<br />
-										<span>The content element will be found by getting the previous sibling to the header
+										<span>The body element will be found by getting the previous sibling to the header
 											DOM element.</span></li>
 									<li><code>jQuery expression</code> :<br />
-										<span>The supplied jQuery expression will determine the content element.</span></li>
+										<span>The supplied jQuery expression will determine the body element.</span></li>
 									<li><code>function (headerElement)</code> :<br />
 										<span>A custom function that is given the header element and should return a jQuery
-											object representing the content element.</span></li>
+											object representing the body element.</span></li>
 								</ul>
 							</li>
-                            <li>
-                                <code>expandHeaderCss</code>:<br />
-                                <span>CSS class(es) to apply to the header when the expollapser is expanded.</span>
-                            </li>
-                            <li>
-                                <code>collapseHeaderCss</code>:<br />
-                                <span>CSS class(es) to apply to the header when the expollapser is collapsed.</span>
-                            </li>
+              <li>
+                  <code>expandHeaderCss</code>:<br />
+                  <span>CSS class(es) to apply to the header when the expollapser is expanded.</span>
+              </li>
+              <li>
+                  <code>collapseHeaderCss</code>:<br />
+                  <span>CSS class(es) to apply to the header when the expollapser is collapsed.</span>
+              </li>
+							<li>
+                  <code>expandBodyCss</code>:<br />
+                  <span>CSS class(es) to apply to the body when the expollapser is expanded.</span>
+              </li>
+              <li>
+                  <code>collapseBodyCss</code>:<br />
+                  <span>CSS class(es) to apply to the body when the expollapser is collapsed.</span>
+              </li>
+							<li>
+									<code>headerReplaceHtml</code>:<br />
+									<span></span>
+							</li>
+							<li>
+									<code>open</code>:<br />
+									<span></span>
+							</li>
+							<li>
+									<code>lazyLoad</code>:<br />
+									<span></span>
+							</li>
 						</ul>
 					</li>
 				</ul>
